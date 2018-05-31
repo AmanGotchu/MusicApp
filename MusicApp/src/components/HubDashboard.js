@@ -5,7 +5,13 @@ class HubDashboard extends Component{
   render(){
     return(
 
-        <SongItem />
+        <View style={{flex: 1, flexDirection: 'column'}}>
+
+          <SongItem />
+          <SongItem />
+
+        </View>
+
 
     );
   }
