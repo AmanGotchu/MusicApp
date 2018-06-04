@@ -11,8 +11,10 @@ const Card = (props) => {
 
 const styles = {
   containerStyle: {
+    alignSelf: 'stretch',
     borderWidth: 1,
     borderRadius: 2,
+    backgroundColor: '#fff',
     borderColor: '#ddd',
     borderBottomWidth: 0,
     shadowColor: '#000',
@@ -22,7 +24,7 @@ const styles = {
     elevation: 1,
     marginLeft: 5,
     marginRight: 5,
-    marginTop: 10
+    marginTop: 10,
   }
 };
 

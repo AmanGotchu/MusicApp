@@ -5,29 +5,24 @@ import LoginForm from './components/LoginForm';
 import SpotifyLogin from './components/SpotifyLogin';
 import HubDashboard from './components/HubDashboard';
 
-
-
 const RouterComponent = () => {
-  return(
+  return (
 
     <Router>
     <Scene key="root" hideNavBar>
 
       <Scene key="appAuth">
-        <Scene key="appLogin" component={LoginForm} title="App Login"/>
+        <Scene key="appLogin" component={LoginForm} title="App Login" initial hideNavBar />
       </Scene>
 
       <Scene key="Spotify" title="Spotify Login">
-        <Scene key="SpotifyLogin" component={SpotifyLogin}/>
+        <Scene key="SpotifyLogin" component={SpotifyLogin} />
       </Scene>
 
-      <Scene key="Hub" title="Hubs" initial>
-        <Scene key="HubDashboard" component={HubDashboard}/>
+      <Scene key="Hub" title="Hubs">
+        <Scene key="HubDashboard" component={HubDashboard} />
 
       </Scene>
-
-
-
 
     </Scene>
 

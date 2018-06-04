@@ -5,11 +5,9 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
-
-
-class App extends Component{
-  render(){
-    return(
+class App extends Component {
+  render() {
+    return (
 
         <Router />
 
