@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input } from './common';
 
 class LoginForm extends Component {
 
@@ -19,10 +19,10 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <ImageBackground style={styles.BackgroundStyle}>
-        <Card>
+      <ImageBackground source={require('../Images/LoginBack.jpeg' )} style={styles.BackgroundStyle}>
+        <Card style={styles.CardStyle}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Text style={styles.LoginHeader}> Music App Login </Text>
+            <Text style={styles.LoginHeader}> Login </Text>
           </View>
             <View style={styles.InputContainer}>
               <CardSection style={styles.InputStyling}>
@@ -44,7 +44,10 @@ class LoginForm extends Component {
             </View>
 
             <View style={styles.ButtonContainer}>
-              <TouchableOpacity style={styles.ButtonStyling}>
+              <TouchableOpacity 
+                style={styles.ButtonStyling}
+                onPress={this.moveViews}
+              >
                 <Text style={styles.ButtonText}> Login </Text>
               </TouchableOpacity>
             </View>
@@ -75,19 +78,20 @@ const styles = {
     flexDirection: 'column', 
     justifyContent: 'center',
     paddingRight: 15,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   TextStyles: {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
-    color: '#606060'
+    color: '#b5b6b7'
   },
   LoginHeader: {
     fontSize: 22,
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 5,
+    color: 'white'
   },
   InputStyling: {
     borderBottomWidth: 1,
@@ -118,7 +122,7 @@ const styles = {
   },
   ButtonContainer: {
     alignSelf: 'stretch',
-    backgroundColor: '#fff',
+    backgroundColor: '#2c2c2d',
     justifyContent: 'flex-start',
     flexDirection: 'row',
     borderColor: 'white',
@@ -130,6 +134,22 @@ const styles = {
       fontWeight: '600',
       paddingTop: 10,
       paddingBottom: 10
+  },
+  CardStyle: {
+    alignSelf: 'stretch',
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#2c2c2d',
+    borderColor: '#2c2c2d',
+    borderBottomWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,
   }
 };
 
