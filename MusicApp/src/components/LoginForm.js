@@ -29,6 +29,20 @@ class LoginForm extends Component {
     this.props.passwordChanged(text);
   }
 
+  renderError() { 
+    if (this.props.error) {
+      return (
+        <View style={{ paddingBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
+            <View style={styles.ErrorContainer}>
+              <Text> INVALID LOGIN </Text>
+            </View>
+          </View>
+      );
+    }
+
+    return <View />;
+  }
+
   render() {
     return (
       <ImageBackground source={BackgroundIMG} style={styles.BackgroundStyle}>
@@ -81,7 +95,9 @@ class LoginForm extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <Text>{this.props.error}</Text>
+
+          {this.renderError()}
+
         </Card>
       </ImageBackground>
     );
@@ -89,6 +105,17 @@ class LoginForm extends Component {
 }
 
 const styles = {
+  ErrorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center', 
+    alignContent: 'center',
+    borderColor: 'orange',
+    borderRadius: 3,
+    borderWidth: 1,
+    paddingBottom: 5,
+    paddingTop: 5,
+    backgroundColor: 'orange'
+  },
   BackgroundStyle: {
     flex: 1, 
     flexDirection: 'column', 
