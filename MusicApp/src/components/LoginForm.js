@@ -3,7 +3,7 @@ import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Card, CardSection, Input } from './common';
-import { emailChanged, passwordChanged } from './actions';
+import { emailChanged, passwordChanged, loginUser } from './actions';
 
 const BackgroundIMG = require('../Images/LoginBack.jpeg');
 
@@ -17,8 +17,16 @@ class LoginForm extends Component {
 
    }
 
-   moveViews() {
-    Actions.Spotify();
+  onLoginButtonPress() {
+    this.props.loginUser(this.props.email, this.props.password);
+  }
+
+  onEmailChanged(text) {
+    this.props.emailChanged(text);
+  }
+
+  onPasswordChanged(text) {
+    this.props.passwordChanged(text);
   }
 
   render() {
@@ -33,6 +41,7 @@ class LoginForm extends Component {
                 <Input 
                 label="Email"
                 placeholder="Email@email.com"
+                onChangeText={this.onEmailChanged.bind(this)}
                 value={this.props.email}
                 />
               </CardSection>
@@ -44,6 +53,7 @@ class LoginForm extends Component {
                 secureTextEntry
                 label="Password"
                 placeholder="password"
+                onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
                 />
               </CardSection>
@@ -52,26 +62,26 @@ class LoginForm extends Component {
             <View style={styles.ButtonContainer}>
               <TouchableOpacity 
                 style={styles.ButtonStyling}
-                onPress={this.moveViews}
+                onPress={this.onLoginButtonPress.bind(this)}
               >
                 <Text style={styles.ButtonText}> Login </Text>
               </TouchableOpacity>
             </View>
 
           <View style={{ flexDirection: 'row', alignContent: 'center', paddingLeft: 5 }}> 
-            <TouchableOpacity onPress={this.onPressRegister()}>
+            <TouchableOpacity onPress={this.onPressRegister.bind(this)}>
               <Text style={styles.TextStyles}>
                   Register
               </Text>
             </TouchableOpacity>
             <Text style={styles.TextStyles}>-</Text>
-            <TouchableOpacity onPress={this.onPressForgot()}>
+            <TouchableOpacity onPress={this.onPressForgot.bind(this)}>
               <Text style={styles.TextStyles}>
                   Forgot Password
               </Text>
             </TouchableOpacity>
           </View>
-
+          <Text>{this.props.error}</Text>
         </Card>
       </ImageBackground>
     );
@@ -162,8 +172,13 @@ const styles = {
 const mapStateToProps = state => {
   return {
     password: state.auth.password,
-    email: state.auth.email
+    email: state.auth.email,
+    error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged })(LoginForm);
+export default connect(mapStateToProps, { 
+  emailChanged, 
+  passwordChanged,
+  loginUser })(LoginForm);
