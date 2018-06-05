@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Card, CardSection, Input } from './common';
+import { emailChanged, passwordChanged } from './actions';
+
+const BackgroundIMG = require('../Images/LoginBack.jpeg');
 
 class LoginForm extends Component {
 
@@ -19,7 +23,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <ImageBackground source={require('../Images/LoginBack.jpeg' )} style={styles.BackgroundStyle}>
+      <ImageBackground source={BackgroundIMG} style={styles.BackgroundStyle}>
         <Card style={styles.CardStyle}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <Text style={styles.LoginHeader}> Login </Text>
@@ -29,6 +33,7 @@ class LoginForm extends Component {
                 <Input 
                 label="Email"
                 placeholder="Email@email.com"
+                value={this.props.email}
                 />
               </CardSection>
             </View>
@@ -39,6 +44,7 @@ class LoginForm extends Component {
                 secureTextEntry
                 label="Password"
                 placeholder="password"
+                value={this.props.password}
                 />
               </CardSection>
             </View>
@@ -153,4 +159,11 @@ const styles = {
   }
 };
 
-export default LoginForm;
+const mapStateToProps = state => {
+  return {
+    password: state.auth.password,
+    email: state.auth.email
+  };
+};
+
+export default connect(mapStateToProps, { emailChanged, passwordChanged })(LoginForm);
