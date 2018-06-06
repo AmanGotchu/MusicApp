@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Card, CardSection, Input } from './common';
-import { emailChanged, passwordChanged, loginUser } from './actions';
+import { Card } from './common';
+import { 
+  emailChanged, 
+  passwordChanged, 
+  passwordChanged2, 
+  registerUser,
+  passwordNonMatch } from './actions';
 
-const BackgroundIMG = require('../Images/LoginBack.jpeg');
+const BackgroundIMG = require('../Images/GreyBackground.jpg');
 
-class LoginForm extends Component {
+class Registration extends Component {
 
    onPressRegister() {
     Actions.Register();
    }
 
-   onPressForgot() {
-    Actions.ForgotPassword();
-   }
-
-  onLoginButtonPress() {
-    this.props.loginUser(this.props.email, this.props.password);
+  onRegisterButtonPress() {
+    if (this.props.password2 !== this.props.password) {
+      this.props.passwordNonMatch();
+    } else {
+      this.props.registerUser(this.props.email, this.props.password);
+    }
   }
 
   onEmailChanged(text) {
@@ -29,12 +34,16 @@ class LoginForm extends Component {
     this.props.passwordChanged(text);
   }
 
+  onPasswordChanged2(text) {
+    this.props.passwordChanged2(text);
+  }
+
   renderError() { 
     if (this.props.error) {
       return (
         <View style={{ paddingBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
             <View style={styles.ErrorContainer}>
-              <Text> INVALID LOGIN </Text>
+              <Text> {this.props.error} </Text>
             </View>
           </View>
       );
@@ -48,53 +57,55 @@ class LoginForm extends Component {
       <ImageBackground source={BackgroundIMG} style={styles.BackgroundStyle}>
         <Card style={styles.CardStyle}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Text style={styles.LoginHeader}> Login </Text>
+            <Text style={styles.LoginHeader}> Registeration </Text>
           </View>
+
             <View style={styles.InputContainer}>
-              <CardSection style={styles.InputStyling}>
-                <Input 
+              <View style={styles.InputStyling}>
+                <TextInput 
+                style={{ flex: 1 }}
                 label="Email"
-                placeholder="Email@email.com"
+                placeholder="Email"
                 onChangeText={this.onEmailChanged.bind(this)}
                 value={this.props.email}
                 />
-              </CardSection>
+              </View>
             </View>
 
             <View style={styles.InputContainer}>
-              <CardSection style={styles.InputStyling}>
-                <Input
-                secureTextEntry
+              <View style={styles.InputStyling}>
+                <TextInput
+                style={{ flex: 1 }}
                 label="Password"
-                placeholder="password"
+                secureTextEntry
+                placeholder="Password"
                 onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
                 />
-              </CardSection>
+              </View>
+            </View>
+
+            <View style={styles.InputContainer}>
+              <View style={styles.InputStyling}>
+                <TextInput
+                style={{ flex: 1 }}
+                Style={styles.InputTextStyle}
+                secureTextEntry
+                placeholder="Confirm Password"
+                onChangeText={this.onPasswordChanged2.bind(this)}
+                value={this.props.password2}
+                />
+              </View>
             </View>
 
             <View style={styles.ButtonContainer}>
               <TouchableOpacity 
                 style={styles.ButtonStyling}
-                onPress={this.onLoginButtonPress.bind(this)}
+                onPress={this.onRegisterButtonPress.bind(this)}
               >
-                <Text style={styles.ButtonText}> Login </Text>
+                <Text style={styles.ButtonText}>Register</Text>
               </TouchableOpacity>
             </View>
-
-          <View style={{ flexDirection: 'row', alignContent: 'center', paddingLeft: 5 }}> 
-            <TouchableOpacity onPress={this.onPressRegister.bind(this)}>
-              <Text style={styles.TextStyles}>
-                  Register
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.TextStyles}>-</Text>
-            <TouchableOpacity onPress={this.onPressForgot.bind(this)}>
-              <Text style={styles.TextStyles}>
-                  Forgot Password
-              </Text>
-            </TouchableOpacity>
-          </View>
 
           {this.renderError()}
 
@@ -123,6 +134,11 @@ const styles = {
     paddingRight: 15,
     paddingLeft: 15,
   },
+  InputTextStyle: {
+    textAlignHorizontal: 'top',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
   TextStyles: {
     paddingTop: 10,
     paddingBottom: 10,
@@ -138,11 +154,9 @@ const styles = {
   },
   InputStyling: {
     borderBottomWidth: 1,
-    paddingBottom: 5,
-    borderRadius: 5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    backgroundColor: '#F5F5F5',
+    borderRadius: 3,
+    padding: 15,
+    backgroundColor: '#fff',
     justifyContent: 'flex-start',
     flexDirection: 'row',
     borderColor: '#ddd',
@@ -151,15 +165,17 @@ const styles = {
   InputContainer: {
     paddingRight: 10,
     paddingLeft: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   ButtonStyling: {
     flex: 1,
     alignSelf: 'stretch',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#0caf24',
-    backgroundColor: '#0caf24',
+    borderColor: '#3fa5ff',
+    backgroundColor: '#3fa5ff',
     marginLeft: 10,
     marginRight: 10,
   },
@@ -169,6 +185,7 @@ const styles = {
     justifyContent: 'flex-start',
     flexDirection: 'row',
     borderColor: 'white',
+    paddingBottom: 10
   },
   ButtonText: {
       alignSelf: 'center',
@@ -199,13 +216,17 @@ const styles = {
 const mapStateToProps = state => {
   return {
     password: state.auth.password,
+    password2: state.auth.password2,
     email: state.auth.email,
     error: state.auth.error,
-    loading: state.auth.loading
+    loading: state.auth.loading,
+    registerUser: state.auth.RegistrationStatus
   };
 };
 
 export default connect(mapStateToProps, { 
   emailChanged, 
   passwordChanged,
-  loginUser })(LoginForm);
+  passwordChanged2,
+  registerUser,
+  passwordNonMatch })(Registration);

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Stack, Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import SpotifyLogin from './components/SpotifyLogin';
 import HubDashboard from './components/HubDashboard';
+import Registration from './components/Registration';
 
 const RouterComponent = () => {
   return (
@@ -11,9 +11,11 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
-      <Scene key="appAuth">
+      <Scene key="appAuth" initial>
         <Scene key="appLogin" component={LoginForm} title="App Login" initial hideNavBar />
       </Scene>
+
+      <Scene key="Register" component={Registration} title="Registration" />
 
       <Scene key="Spotify" title="Spotify Login">
         <Scene key="SpotifyLogin" component={SpotifyLogin} />
