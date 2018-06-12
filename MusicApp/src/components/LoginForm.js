@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Card, CardSection, Input } from './common';
+import { Card, CardSection } from './common';
 import { emailChanged, passwordChanged, loginUser } from './actions';
 
-const BackgroundIMG = require('../Images/LoginBack.jpeg');
+const BackgroundIMG = require('../Images/purp2.jpeg');
 
 class LoginForm extends Component {
 
@@ -47,14 +48,21 @@ class LoginForm extends Component {
     return (
       <ImageBackground source={BackgroundIMG} style={styles.BackgroundStyle}>
         <Card style={styles.CardStyle}>
-          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <Text style={styles.LoginHeader}> Login </Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 50 }}>
+            <Text style={styles.LoginHeader}> Music App </Text>
           </View>
             <View style={styles.InputContainer}>
               <CardSection style={styles.InputStyling}>
-                <Input 
+                <Icon 
+                name="email" 
+                size={20} 
+                color="white"
+                style={{ paddingRight: 10, paddingLeft: 5 }} 
+                />
+                <TextInput 
                 label="Email"
-                placeholder="Email@email.com"
+                placeholder="Email"
+                placeholderTextColor="#f2f3f4"
                 onChangeText={this.onEmailChanged.bind(this)}
                 value={this.props.email}
                 />
@@ -63,10 +71,17 @@ class LoginForm extends Component {
 
             <View style={styles.InputContainer}>
               <CardSection style={styles.InputStyling}>
-                <Input
+                <Icon 
+                name="lock" 
+                size={20} 
+                color="white" 
+                style={{ paddingRight: 10, paddingLeft: 5 }}
+                />
+                <TextInput
                 secureTextEntry
                 label="Password"
-                placeholder="password"
+                placeholder="Password"
+                placeholderTextColor="white"
                 onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
                 />
@@ -82,7 +97,7 @@ class LoginForm extends Component {
               </TouchableOpacity>
             </View>
 
-          <View style={{ flexDirection: 'row', alignContent: 'center', paddingLeft: 5 }}> 
+          <View style={styles.RegisterStyle}> 
             <TouchableOpacity onPress={this.onPressRegister.bind(this)}>
               <Text style={styles.TextStyles}>
                   Register
@@ -105,6 +120,13 @@ class LoginForm extends Component {
 }
 
 const styles = {
+  RegisterStyle: {
+    flexDirection: 'row',
+    alignContent: 'center', 
+    paddingLeft: 5, 
+    justifyContent: 'center', 
+    paddingTop: 50
+  },
   ErrorContainer: {
     flexDirection: 'row',
     justifyContent: 'center', 
@@ -130,42 +152,42 @@ const styles = {
     color: '#b5b6b7'
   },
   LoginHeader: {
-    fontSize: 22,
+    fontFamily: 'Thonburi',
+    fontWeight: 'bold',
+    fontSize: 42,
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 30,
     paddingLeft: 5,
     color: 'white'
   },
   InputStyling: {
     borderBottomWidth: 1,
-    paddingBottom: 5,
-    borderRadius: 5,
-    paddingRight: 5,
-    paddingLeft: 5,
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'flex-start',
+    padding: 10,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255, 255, 255, .3)',
+    borderColor: 'rgba(52, 52, 52, .5)',
     flexDirection: 'row',
-    borderColor: '#ddd',
-    position: 'relative',
   },
   InputContainer: {
     paddingRight: 10,
     paddingLeft: 10,
-    paddingBottom: 10
+    paddingBottom: 40
   },
   ButtonStyling: {
     flex: 1,
     alignSelf: 'stretch',
-    borderRadius: 5,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#0caf24',
-    backgroundColor: '#0caf24',
+    borderColor: 'white',
+    backgroundColor: 'rgba(52, 52, 52, 0)',
     marginLeft: 10,
     marginRight: 10,
   },
   ButtonContainer: {
-    alignSelf: 'stretch',
-    backgroundColor: '#2c2c2d',
+    paddingTop: 30,
+    alignSelf: 'center',
+    width: 300,
+    backgroundColor: 'rgba(52, 52, 52, 0)',
     justifyContent: 'flex-start',
     flexDirection: 'row',
     borderColor: 'white',
@@ -182,8 +204,8 @@ const styles = {
     alignSelf: 'stretch',
     borderWidth: 1,
     borderRadius: 5,
-    backgroundColor: '#2c2c2d',
-    borderColor: '#2c2c2d',
+    backgroundColor: 'rgba(52, 52, 52, 0)',
+    borderColor: 'rgba(52, 52, 52, 0)',
     borderBottomWidth: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

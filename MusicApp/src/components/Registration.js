@@ -10,7 +10,7 @@ import {
   registerUser,
   passwordNonMatch } from './actions';
 
-const BackgroundIMG = require('../Images/GreyBackground.jpg');
+const BackgroundIMG = require('../Images/LoginBack.jpeg');
 
 class Registration extends Component {
 
