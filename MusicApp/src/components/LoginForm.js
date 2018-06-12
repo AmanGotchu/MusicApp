@@ -59,12 +59,14 @@ class LoginForm extends Component {
                 color="white"
                 style={{ paddingRight: 10, paddingLeft: 5 }} 
                 />
-                <TextInput 
+                <TextInput
+                style={{ flex: 1, fontSize: 15 }} 
                 label="Email"
                 placeholder="Email"
                 placeholderTextColor="#f2f3f4"
                 onChangeText={this.onEmailChanged.bind(this)}
                 value={this.props.email}
+                color='white'
                 />
               </CardSection>
             </View>
@@ -78,12 +80,14 @@ class LoginForm extends Component {
                 style={{ paddingRight: 10, paddingLeft: 5 }}
                 />
                 <TextInput
+                style={{ flex: 1, fontSize: 15 }} 
                 secureTextEntry
                 label="Password"
                 placeholder="Password"
                 placeholderTextColor="white"
                 onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
+                color='white'
                 />
               </CardSection>
             </View>
@@ -162,11 +166,11 @@ const styles = {
   },
   InputStyling: {
     borderBottomWidth: 1,
-    padding: 10,
+    padding: 15,
     borderRadius: 15,
     backgroundColor: 'rgba(255, 255, 255, .3)',
     borderColor: 'rgba(52, 52, 52, .5)',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   InputContainer: {
     paddingRight: 10,
@@ -184,7 +188,7 @@ const styles = {
     marginRight: 10,
   },
   ButtonContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
     alignSelf: 'center',
     width: 300,
     backgroundColor: 'rgba(52, 52, 52, 0)',
