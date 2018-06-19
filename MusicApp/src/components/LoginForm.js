@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, TextInput, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Card, CardSection } from './common';
 import { emailChanged, passwordChanged, loginUser } from './actions';
 
-const BackgroundIMG = require('../Images/Gradient-Phone-05.png');
+const BackgroundIMG = require('../Images/background-2.jpg');
+const ButtonBack = require('../Images/Green-Gradient.png');
 
 class LoginForm extends Component {
 
@@ -94,12 +95,20 @@ class LoginForm extends Component {
           </View>
 
           <View style={styles.ButtonContainer}>
-            <TouchableOpacity 
-              style={styles.ButtonStyling}
-              onPress={this.onLoginButtonPress.bind(this)}
-            >
-              <Text style={styles.ButtonText}> Login </Text>
-            </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.ButtonStyling}
+                onPress={this.onLoginButtonPress.bind(this)}
+              >
+                <ImageBackground 
+                  source={ButtonBack} 
+                  style={{}}
+                  borderRadius={10}
+                >
+                  <Text 
+                    style={styles.ButtonText}
+                  > LOG IN </Text>
+                </ImageBackground>
+              </TouchableOpacity>
           </View>
 
           <View style={styles.RegisterStyle}> 
@@ -169,21 +178,21 @@ const styles = {
     borderBottomWidth: 1,
     padding: 15,
     borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, .3)',
+    backgroundColor: 'rgba(255, 255, 255, .2)',
     borderColor: 'rgba(52, 52, 52, .5)',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   InputContainer: {
     paddingRight: 10,
     paddingLeft: 10,
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   ButtonStyling: {
     flex: 1,
     alignSelf: 'stretch',
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0)',
     backgroundColor: 'rgba(52, 52, 52, 0)',
     marginLeft: 10,
     marginRight: 10,
@@ -199,11 +208,11 @@ const styles = {
   },
   ButtonText: {
       alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
+      fontSize: 15,
       fontWeight: '600',
       paddingTop: 10,
-      paddingBottom: 10
+      paddingBottom: 10,
+      color: 'white'
   },
   CardStyle: {
     alignSelf: 'stretch',
