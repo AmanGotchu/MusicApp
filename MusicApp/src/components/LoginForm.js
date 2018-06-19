@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity, TextInput, Image } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -58,17 +58,17 @@ class LoginForm extends Component {
               <Icon 
               name="email" 
               size={20} 
-              color="white"
+              color="#C0C0C0"
               style={{ paddingRight: 10, paddingLeft: 5 }} 
               />
               <TextInput
-              style={{ flex: 1, fontSize: 15 }} 
+              style={{ flex: 1, fontSize: 18, paddingLeft: 5 }} 
               label="Email"
               placeholder="Email"
-              placeholderTextColor="#f2f3f4"
+              placeholderTextColor="#C0C0C0"
               onChangeText={this.onEmailChanged.bind(this)}
               value={this.props.email}
-              color='white'
+              color='#C0C0C0'
               />
             </CardSection>
           </View>
@@ -78,18 +78,18 @@ class LoginForm extends Component {
               <Icon 
               name="lock" 
               size={20} 
-              color="white" 
+              color="#C0C0C0" 
               style={{ paddingRight: 10, paddingLeft: 5 }}
               />
               <TextInput
-              style={{ flex: 1, fontSize: 15 }} 
+              style={{ flex: 1, fontSize: 18, paddingLeft: 5 }} 
               secureTextEntry
               label="Password"
               placeholder="Password"
-              placeholderTextColor="white"
+              placeholderTextColor="#C0C0C0"
               onChangeText={this.onPasswordChanged.bind(this)}
               value={this.props.password}
-              color='white'
+              color="#C0C0C0"
               />
             </CardSection>
           </View>
@@ -163,7 +163,7 @@ const styles = {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
-    color: '#b5b6b7'
+    color: '#C0C0C0'
   },
   LoginHeader: {
     fontFamily: 'Thonburi',
@@ -178,13 +178,13 @@ const styles = {
     borderBottomWidth: 1,
     padding: 15,
     borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, .2)',
-    borderColor: 'rgba(52, 52, 52, .5)',
+    backgroundColor: 'rgba(255, 255, 255, .0)',
+    borderColor: 'grey',
     flexDirection: 'row',
   },
   InputContainer: {
-    paddingRight: 10,
-    paddingLeft: 10,
+    paddingRight: 5,
+    paddingLeft: 5,
     paddingBottom: 40,
   },
   ButtonStyling: {
@@ -200,7 +200,8 @@ const styles = {
   ButtonContainer: {
     paddingTop: 10,
     alignSelf: 'center',
-    width: 300,
+    paddingLeft: 15,
+    paddingRight: 15,
     backgroundColor: 'rgba(52, 52, 52, 0)',
     justifyContent: 'flex-start',
     flexDirection: 'row',
