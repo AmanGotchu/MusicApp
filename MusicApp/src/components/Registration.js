@@ -10,7 +10,7 @@ import {
   registerUser,
   passwordNonMatch } from './actions';
 
-const BackgroundIMG = require('../Images/LoginBack.jpeg');
+  const BackgroundIMG = require('../Images/purp2.jpeg');
 
 class Registration extends Component {
 
@@ -68,6 +68,7 @@ class Registration extends Component {
                 placeholder="Email"
                 onChangeText={this.onEmailChanged.bind(this)}
                 value={this.props.email}
+                placeholderTextColor='white'
                 />
               </View>
             </View>
@@ -81,6 +82,7 @@ class Registration extends Component {
                 placeholder="Password"
                 onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
+                placeholderTextColor='white'
                 />
               </View>
             </View>
@@ -94,6 +96,7 @@ class Registration extends Component {
                 placeholder="Confirm Password"
                 onChangeText={this.onPasswordChanged2.bind(this)}
                 value={this.props.password2}
+                placeholderTextColor='white'
                 />
               </View>
             </View>
@@ -116,6 +119,13 @@ class Registration extends Component {
 }
 
 const styles = {
+  RegisterStyle: {
+    flexDirection: 'row',
+    alignContent: 'center', 
+    paddingLeft: 5, 
+    justifyContent: 'center', 
+    paddingTop: 50
+  },
   ErrorContainer: {
     flexDirection: 'row',
     justifyContent: 'center', 
@@ -134,11 +144,6 @@ const styles = {
     paddingRight: 15,
     paddingLeft: 15,
   },
-  InputTextStyle: {
-    textAlignHorizontal: 'top',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
   TextStyles: {
     paddingTop: 10,
     paddingBottom: 10,
@@ -146,46 +151,45 @@ const styles = {
     color: '#b5b6b7'
   },
   LoginHeader: {
-    fontSize: 22,
+    fontFamily: 'Thonburi',
+    fontWeight: 'bold',
+    fontSize: 42,
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 30,
     paddingLeft: 5,
     color: 'white'
   },
   InputStyling: {
     borderBottomWidth: 1,
-    borderRadius: 3,
     padding: 15,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    borderColor: '#ddd',
-    position: 'relative',
+    borderRadius: 15,
+    backgroundColor: 'rgba(255, 255, 255, .3)',
+    borderColor: 'rgba(52, 52, 52, .5)',
+    flexDirection: 'row'
   },
   InputContainer: {
     paddingRight: 10,
     paddingLeft: 10,
-    paddingBottom: 10,
-    flexDirection: 'column',
-    justifyContent: 'center'
+    paddingBottom: 40
   },
   ButtonStyling: {
     flex: 1,
     alignSelf: 'stretch',
-    borderRadius: 5,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#3fa5ff',
-    backgroundColor: '#3fa5ff',
+    borderColor: 'white',
+    backgroundColor: 'rgba(52, 52, 52, 0)',
     marginLeft: 10,
     marginRight: 10,
   },
   ButtonContainer: {
-    alignSelf: 'stretch',
-    backgroundColor: '#2c2c2d',
+    paddingTop: 10,
+    alignSelf: 'center',
+    width: 300,
+    backgroundColor: 'rgba(52, 52, 52, 0)',
     justifyContent: 'flex-start',
     flexDirection: 'row',
     borderColor: 'white',
-    paddingBottom: 10
   },
   ButtonText: {
       alignSelf: 'center',
@@ -199,8 +203,8 @@ const styles = {
     alignSelf: 'stretch',
     borderWidth: 1,
     borderRadius: 5,
-    backgroundColor: '#2c2c2d',
-    borderColor: '#2c2c2d',
+    backgroundColor: 'rgba(52, 52, 52, 0)',
+    borderColor: 'rgba(52, 52, 52, 0)',
     borderBottomWidth: 0,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

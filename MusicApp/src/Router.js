@@ -12,7 +12,7 @@ const RouterComponent = () => {
     <Scene key="root" hideNavBar>
 
       <Scene key="appAuth" initial>
-        <Scene key="appLogin" component={LoginForm} title="App Login" initial hideNavBar />
+        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar initial />
       </Scene>
 
       <Scene key="Register" component={Registration} title="Registration" />
@@ -23,7 +23,6 @@ const RouterComponent = () => {
 
       <Scene key="Hub" title="Hubs">
         <Scene key="HubDashboard" component={HubDashboard} />
-
       </Scene>
 
     </Scene>

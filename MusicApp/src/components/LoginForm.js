@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import { Card, CardSection } from './common';
 import { emailChanged, passwordChanged, loginUser } from './actions';
 
-const BackgroundIMG = require('../Images/purp2.jpeg');
+const BackgroundIMG = require('../Images/Gradient-Phone-05.png');
 
 class LoginForm extends Component {
 
@@ -51,55 +51,56 @@ class LoginForm extends Component {
           <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 50 }}>
             <Text style={styles.LoginHeader}> Music App </Text>
           </View>
-            <View style={styles.InputContainer}>
-              <CardSection style={styles.InputStyling}>
-                <Icon 
-                name="email" 
-                size={20} 
-                color="white"
-                style={{ paddingRight: 10, paddingLeft: 5 }} 
-                />
-                <TextInput
-                style={{ flex: 1, fontSize: 15 }} 
-                label="Email"
-                placeholder="Email"
-                placeholderTextColor="#f2f3f4"
-                onChangeText={this.onEmailChanged.bind(this)}
-                value={this.props.email}
-                color='white'
-                />
-              </CardSection>
-            </View>
 
-            <View style={styles.InputContainer}>
-              <CardSection style={styles.InputStyling}>
-                <Icon 
-                name="lock" 
-                size={20} 
-                color="white" 
-                style={{ paddingRight: 10, paddingLeft: 5 }}
-                />
-                <TextInput
-                style={{ flex: 1, fontSize: 15 }} 
-                secureTextEntry
-                label="Password"
-                placeholder="Password"
-                placeholderTextColor="white"
-                onChangeText={this.onPasswordChanged.bind(this)}
-                value={this.props.password}
-                color='white'
-                />
-              </CardSection>
-            </View>
+          <View style={styles.InputContainer}>
+            <CardSection style={styles.InputStyling}>
+              <Icon 
+              name="email" 
+              size={20} 
+              color="white"
+              style={{ paddingRight: 10, paddingLeft: 5 }} 
+              />
+              <TextInput
+              style={{ flex: 1, fontSize: 15 }} 
+              label="Email"
+              placeholder="Email"
+              placeholderTextColor="#f2f3f4"
+              onChangeText={this.onEmailChanged.bind(this)}
+              value={this.props.email}
+              color='white'
+              />
+            </CardSection>
+          </View>
 
-            <View style={styles.ButtonContainer}>
-              <TouchableOpacity 
-                style={styles.ButtonStyling}
-                onPress={this.onLoginButtonPress.bind(this)}
-              >
-                <Text style={styles.ButtonText}> Login </Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.InputContainer}>
+            <CardSection style={styles.InputStyling}>
+              <Icon 
+              name="lock" 
+              size={20} 
+              color="white" 
+              style={{ paddingRight: 10, paddingLeft: 5 }}
+              />
+              <TextInput
+              style={{ flex: 1, fontSize: 15 }} 
+              secureTextEntry
+              label="Password"
+              placeholder="Password"
+              placeholderTextColor="white"
+              onChangeText={this.onPasswordChanged.bind(this)}
+              value={this.props.password}
+              color='white'
+              />
+            </CardSection>
+          </View>
+
+          <View style={styles.ButtonContainer}>
+            <TouchableOpacity 
+              style={styles.ButtonStyling}
+              onPress={this.onLoginButtonPress.bind(this)}
+            >
+              <Text style={styles.ButtonText}> Login </Text>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.RegisterStyle}> 
             <TouchableOpacity onPress={this.onPressRegister.bind(this)}>
