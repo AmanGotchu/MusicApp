@@ -31,18 +31,14 @@ class LoginForm extends Component {
     this.props.passwordChanged(text);
   }
 
-  renderError() { 
+  renderText() { 
     if (this.props.error) {
       return (
-        <View style={{ paddingBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
-            <View style={styles.ErrorContainer}>
-              <Text> INVALID LOGIN </Text>
-            </View>
-          </View>
+          <Text style={styles.ButtonText}> INVALID - TRY AGAIN </Text>
       );
     }
 
-    return <View />;
+    return (<Text style={styles.ButtonText}> LOG IN </Text>);
   }
 
   render() {
@@ -104,9 +100,7 @@ class LoginForm extends Component {
                   style={{}}
                   borderRadius={10}
                 >
-                  <Text 
-                    style={styles.ButtonText}
-                  > LOG IN </Text>
+                  {this.renderText()}
                 </ImageBackground>
               </TouchableOpacity>
           </View>
@@ -124,8 +118,6 @@ class LoginForm extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-
-          {this.renderError()}
 
         </Card>
       </ImageBackground>
@@ -171,7 +163,6 @@ const styles = {
     fontSize: 42,
     paddingTop: 20,
     paddingBottom: 30,
-    paddingLeft: 5,
     color: 'white'
   },
   InputStyling: {
@@ -194,14 +185,14 @@ const styles = {
     borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0)',
     backgroundColor: 'rgba(52, 52, 52, 0)',
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 5,
+    marginRight: 5
   },
   ButtonContainer: {
     paddingTop: 10,
     alignSelf: 'center',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 1,
+    paddingRight: 1,
     backgroundColor: 'rgba(52, 52, 52, 0)',
     justifyContent: 'flex-start',
     flexDirection: 'row',
@@ -209,7 +200,7 @@ const styles = {
   },
   ButtonText: {
       alignSelf: 'center',
-      fontSize: 15,
+      fontSize: 18,
       fontWeight: '600',
       paddingTop: 10,
       paddingBottom: 10,
