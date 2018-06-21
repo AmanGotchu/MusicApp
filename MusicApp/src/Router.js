@@ -12,12 +12,12 @@ const RouterComponent = () => {
     <Scene key="root" hideNavBar>
 
       <Scene key="appAuth" initial>
-        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar initial />
+        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
       </Scene>
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Spotify" title="Spotify Login">
+      <Scene key="Spotify" title="Spotify Login" initial >
         <Scene key="SpotifyLogin" component={SpotifyLogin} />
       </Scene>
 

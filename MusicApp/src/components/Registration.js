@@ -10,7 +10,8 @@ import {
   registerUser,
   passwordNonMatch } from './actions';
 
-  const BackgroundIMG = require('../Images/purp2.jpeg');
+  const BackgroundIMG = require('../Images/background-2.jpg');
+  const ButtonBack = require('../Images/Green-Gradient.png');
 
 class Registration extends Component {
 
@@ -63,12 +64,13 @@ class Registration extends Component {
             <View style={styles.InputContainer}>
               <View style={styles.InputStyling}>
                 <TextInput 
-                style={{ flex: 1 }}
+                style={{ flex: 1, fontSize: 18 }}
                 label="Email"
                 placeholder="Email"
                 onChangeText={this.onEmailChanged.bind(this)}
                 value={this.props.email}
-                placeholderTextColor='white'
+                placeholderTextColor='#C0C0C0'
+                color='#C0C0C0'
                 />
               </View>
             </View>
@@ -76,13 +78,14 @@ class Registration extends Component {
             <View style={styles.InputContainer}>
               <View style={styles.InputStyling}>
                 <TextInput
-                style={{ flex: 1 }}
+                style={{ flex: 1, fontSize: 18 }}
                 label="Password"
                 secureTextEntry
                 placeholder="Password"
                 onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
-                placeholderTextColor='white'
+                placeholderTextColor='#C0C0C0'
+                colro='#C0C0C0'
                 />
               </View>
             </View>
@@ -90,13 +93,14 @@ class Registration extends Component {
             <View style={styles.InputContainer}>
               <View style={styles.InputStyling}>
                 <TextInput
-                style={{ flex: 1 }}
+                style={{ flex: 1, fontSize: 18 }}
                 Style={styles.InputTextStyle}
                 secureTextEntry
                 placeholder="Confirm Password"
                 onChangeText={this.onPasswordChanged2.bind(this)}
                 value={this.props.password2}
-                placeholderTextColor='white'
+                placeholderTextColor='#C0C0C0'
+                color='#C0C0C0'
                 />
               </View>
             </View>
@@ -106,7 +110,13 @@ class Registration extends Component {
                 style={styles.ButtonStyling}
                 onPress={this.onRegisterButtonPress.bind(this)}
               >
-                <Text style={styles.ButtonText}>Register</Text>
+                <ImageBackground 
+                  source={ButtonBack} 
+                  style={{}}
+                  borderRadius={10}
+                >
+                  <Text style={styles.ButtonText}>Register</Text>
+                </ImageBackground>
               </TouchableOpacity>
             </View>
 
@@ -148,7 +158,7 @@ const styles = {
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
-    color: '#b5b6b7'
+    color: '#C0C0C0'
   },
   LoginHeader: {
     fontFamily: 'Thonburi',
@@ -156,36 +166,36 @@ const styles = {
     fontSize: 42,
     paddingTop: 20,
     paddingBottom: 30,
-    paddingLeft: 5,
     color: 'white'
   },
   InputStyling: {
     borderBottomWidth: 1,
     padding: 15,
     borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, .3)',
-    borderColor: 'rgba(52, 52, 52, .5)',
-    flexDirection: 'row'
+    backgroundColor: 'rgba(255, 255, 255, .0)',
+    borderColor: 'grey',
+    flexDirection: 'row',
   },
   InputContainer: {
-    paddingRight: 10,
-    paddingLeft: 10,
-    paddingBottom: 40
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingBottom: 40,
   },
   ButtonStyling: {
     flex: 1,
     alignSelf: 'stretch',
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'rgba(0, 0, 0, 0)',
     backgroundColor: 'rgba(52, 52, 52, 0)',
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 5,
+    marginRight: 5
   },
   ButtonContainer: {
     paddingTop: 10,
     alignSelf: 'center',
-    width: 300,
+    paddingLeft: 1,
+    paddingRight: 1,
     backgroundColor: 'rgba(52, 52, 52, 0)',
     justifyContent: 'flex-start',
     flexDirection: 'row',
@@ -193,11 +203,11 @@ const styles = {
   },
   ButtonText: {
       alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: '600',
       paddingTop: 10,
-      paddingBottom: 10
+      paddingBottom: 10,
+      color: 'white'
   },
   CardStyle: {
     alignSelf: 'stretch',
