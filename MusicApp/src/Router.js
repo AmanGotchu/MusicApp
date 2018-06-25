@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm';
 import SpotifyLogin from './components/SpotifyLogin';
 import HubDashboard from './components/HubDashboard';
 import Registration from './components/Registration';
+import Home from './components/Home';
+import UserInfo from './components/UserInfo';
 
 const RouterComponent = () => {
   return (
@@ -11,13 +13,18 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
-      <Scene key="appAuth" initial>
+      <Scene key="appAuth">
         <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
       </Scene>
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Spotify" title="Spotify Login" initial >
+      <Scene key="Logged In" initial>
+        <Scene key="Home" component={Home} title="HomePage" hideNavBar />
+        <Scene key="UserInfo" component={UserInfo} title="UserInformation" initial hideNavBar />
+      </Scene>
+
+      <Scene key="Spotify" title="Spotify Login" >
         <Scene key="SpotifyLogin" component={SpotifyLogin} />
       </Scene>
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Card, CardSection } from './common';
@@ -10,14 +10,6 @@ const BackgroundIMG = require('../Images/background-2.jpg');
 const ButtonBack = require('../Images/Green-Gradient.png');
 
 class LoginForm extends Component {
-
-   onPressRegister() {
-    Actions.Register();
-   }
-
-   onPressForgot() {
-    Actions.ForgotPassword();
-   }
 
   onLoginButtonPress() {
     this.props.loginUser(this.props.email, this.props.password);
@@ -52,13 +44,14 @@ class LoginForm extends Component {
           <View style={styles.InputContainer}>
             <CardSection style={styles.InputStyling}>
               <Icon 
-              name="email" 
+              name="email-outline" 
+              type="material-community"
               size={20} 
               color="#C0C0C0"
-              style={{ paddingRight: 10, paddingLeft: 5 }} 
+              style={{ paddingLeft: 5 }} 
               />
               <TextInput
-              style={{ flex: 1, fontSize: 18, paddingLeft: 5 }} 
+              style={{ flex: 1, fontSize: 18, paddingLeft: 10 }} 
               label="Email"
               placeholder="Email"
               placeholderTextColor="#C0C0C0"
@@ -73,12 +66,13 @@ class LoginForm extends Component {
             <CardSection style={styles.InputStyling}>
               <Icon 
               name="lock" 
+              type="feather"
               size={20} 
               color="#C0C0C0" 
-              style={{ paddingRight: 10, paddingLeft: 5 }}
+              style={{ paddingLeft: 5 }}
               />
               <TextInput
-              style={{ flex: 1, fontSize: 18, paddingLeft: 5 }} 
+              style={{ flex: 1, fontSize: 18, paddingLeft: 10 }} 
               secureTextEntry
               label="Password"
               placeholder="Password"
@@ -106,13 +100,13 @@ class LoginForm extends Component {
           </View>
 
           <View style={styles.RegisterStyle}> 
-            <TouchableOpacity onPress={this.onPressRegister.bind(this)}>
+            <TouchableOpacity onPress={() => Actions.Register()}>
               <Text style={styles.TextStyles}>
                   Register
               </Text>
             </TouchableOpacity>
             <Text style={styles.TextStyles}>-</Text>
-            <TouchableOpacity onPress={this.onPressForgot.bind(this)}>
+            <TouchableOpacity onPress={() => Actions.ForgotPassword()}>
               <Text style={styles.TextStyles}>
                   Forgot Password
               </Text>
