@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm';
 import SpotifyLogin from './components/SpotifyLogin';
 import HubDashboard from './components/HubDashboard';
 import Registration from './components/Registration';
+import HubListMap from './components/HubListMap';
 import Home from './components/Home';
 import UserInfo from './components/UserInfo';
 
@@ -13,13 +14,17 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
+      <Scene key="HubList" initial>
+        <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
+      </Scene>
+
       <Scene key="appAuth">
         <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
       </Scene>
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Logged In" initial>
+      <Scene key="Logged In">
         <Scene key="Home" component={Home} title="HomePage" hideNavBar />
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" initial hideNavBar />
       </Scene>
