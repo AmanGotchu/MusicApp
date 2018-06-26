@@ -14,7 +14,7 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
-      <Scene key="HubList" initial>
+      <Scene key="HubList">
         <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
       </Scene>
 
@@ -24,9 +24,9 @@ const RouterComponent = () => {
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Logged In">
+      <Scene key="Logged In" initial>
         <Scene key="Home" component={Home} title="HomePage" hideNavBar />
-        <Scene key="UserInfo" component={UserInfo} title="UserInformation" initial hideNavBar />
+        <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
       </Scene>
 
       <Scene key="Spotify" title="Spotify Login" >
