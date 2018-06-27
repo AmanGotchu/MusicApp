@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
 import { Header, Icon, ListItem, List } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 import 'react-native-vector-icons';
 
 let isHidden = true;
 const homeChoices = [
     {
-        title: '1',
-        icon: 'mail',
-        PressAction: () => console.log(1)
+        title: 'User Settings',
+        icon: 'cog',
+        type: 'entypo',
+        PressAction: () => Actions.UserInfo()
     },
     {
         title: '2',
-        icon: 'lock',
+        icon: 'mail',
         PressAction: () => console.log(2)
     },
     {
@@ -88,10 +90,11 @@ class Home extends Component {
                             <ListItem
                                 key={i}
                                 title={item.title}
-                                leftIcon={{ name: item.icon, color: 'white' }}
+                                leftIcon={{ name: item.icon, color: 'white', type: item.type }}
                                 onPress={item.PressAction}
                                 underlayColor='rgba(0, 0, 0, .0)'
                                 wrapperStyle={{ paddingLeft: 5 }}
+                                titleStyle={{ color: 'white' }}
                             />
                         ))
                     }

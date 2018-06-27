@@ -18,13 +18,11 @@ class SpotifyLogin extends Component {
   state = { refreshToken: '', accessToken: '' }
   componentWillMount() {
     Linking.openURL(url).catch(err => console.error('an error as occured', err));
-  }
-
-  componentDidMount() {
     Linking.addEventListener('url', this.handleOpenURL.bind(this));
   }
+
   componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURL);
+    Linking.removeEventListener('url', this.handleOpenURL.bind(this));
   }
 
   setTokens(JsonData) {
@@ -47,8 +45,7 @@ class SpotifyLogin extends Component {
           code,
           redirect_uri: REDIRECT_URI,
           grant_type: 'authorization_code'
-        }),
-        json: true
+        })
       }).then((response) => response.json())
         .then((Jresponse) => this.setTokens(Jresponse));
     }

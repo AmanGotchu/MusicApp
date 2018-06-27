@@ -6,3 +6,6 @@ export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAILED = 'login_user_failed';
 export const REGISTER_USER_SUCCESS = 'register_user_success';
 export const PASSWORD_NON_MATCH = 'password_non_match';
+export const FIRST_NAME_CHANGE = 'first_name_change';
+export const LAST_NAME_CHANGE = 'last_name_change';
+export const DISCARD_CHANGES = 'discard_changes';
