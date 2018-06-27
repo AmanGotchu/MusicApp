@@ -9,12 +9,12 @@ import reducers from './components/reducers';
 class App extends Component {
   componentWillMount() {
     const config = {
-      apiKey: 'AIzaSyAxMSAW4GuJL3AqNIsPUP6ydOp_FGzN3Vo',
-      authDomain: 'manager-76cfe.firebaseapp.com',
-      databaseURL: 'https://manager-76cfe.firebaseio.com',
-      projectId: 'manager-76cfe',
-      storageBucket: 'manager-76cfe.appspot.com',
-      messagingSenderId: '241971962677'
+      apiKey: 'AIzaSyBVt5xV-rwdWfYU4pICMNIEgdB0GN434Vg',
+      authDomain: 'musicapp-a40f1.firebaseapp.com',
+      databaseURL: 'https://musicapp-a40f1.firebaseio.com',
+      projectId: 'musicapp-a40f1',
+      storageBucket: 'musicapp-a40f1.appspot.com',
+      messagingSenderId: '868653032624'
     };
 
     firebase.initializeApp(config);

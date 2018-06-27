@@ -47,7 +47,7 @@ const loginUserSuccess = (dispatch, user) => {
         payload: user
     });
 
-    Actions.Spotify();
+    Actions.Logged_In();
 };
 
 const loginUserFailed = (dispatch) => {
