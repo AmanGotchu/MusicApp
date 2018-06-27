@@ -1,0 +1,13 @@
+{
+  'markers' : [
+    {
+      'hubName' : 'Aman House',
+      'numUsers': 6,
+      'currSong': 'Pokemon Master',
+      latlng: {
+            latitude: 37.7,
+            longitude: -122.4,
+      }
+    }
+  ]
+}
