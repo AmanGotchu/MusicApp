@@ -14,12 +14,12 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
-      <Scene key="HubList">
+      <Scene key="HubList" initial>
         <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
       </Scene>
 
-      <Scene key="appAuth" initial>
-        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar initial />
+      <Scene key="appAuth">
+        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
       </Scene>
 
       <Scene key="Register" component={Registration} title="Registration" />

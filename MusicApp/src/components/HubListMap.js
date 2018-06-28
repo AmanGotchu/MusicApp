@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Dimensions, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MapOverlay from './MapOverlay';
-
+import { overlayNameChange, overlaySongChange, overlayNumUsersChange } from './actions';
 
 class HubListMap extends Component {
 
 state = {
-  hubName: 'Hub Placeholder',
-  numUsers: 10,
-  currSong: 'Placeholder',
+  viewRegion: {
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421
+  },
   markers: [
     {
       key: 1,
@@ -42,28 +46,24 @@ state = {
       }
     }
   ]
-
 }
 
-componentWillMount() {
+onMarkerClick(marker) {
+  this.props.overlayNameChange(marker.hubName);
+  this.props.overlayNumUsersChange(marker.numUsers);
+  this.props.overlaySongChange(marker.currSong);
 
-}
-
-onMarkerClick = ({ hubName, numUsers, currSong }) => {
-  this.setState({ hubName, numUsers, currSong });
-}
+  this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude } });
+  this.map.animateToRegion({ latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, 100);
+ }
 
 render() {
   return (
 
 <View>
     <MapView
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        ref={(el) => (this.map = el)}
+        initialRegion={this.state.viewRegion}
         style={styles.map}
     >
 
@@ -77,7 +77,7 @@ render() {
   ))}
 
 
-    <MapOverlay hubName={this.state.hubName} currSong={this.state.currSong} numUsers={this.state.numUsers} />
+    <MapOverlay hubName={this.props.hubName} currSong={this.props.currSong} numUsers={this.props.numUsers} />
     </MapView>
 </View>
   );
@@ -100,4 +100,17 @@ view: {
 }
 };
 
-export default HubListMap;
+
+const mapStateToProps = state => {
+  return {
+    hubName: state.map.hubName,
+    currSong: state.map.currSong,
+    numUsers: state.map.numUsers
+  };
+};
+
+export default connect(mapStateToProps, {
+  overlaySongChange,
+  overlayNameChange,
+  overlayNumUsersChange
+})(HubListMap);
