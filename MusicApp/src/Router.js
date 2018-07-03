@@ -18,7 +18,7 @@ const RouterComponent = () => {
         <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
       </Scene>
 
-      <Scene key="appAuth">
+      <Scene key="appAuth" initial>
         <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
       </Scene>
 
@@ -29,7 +29,7 @@ const RouterComponent = () => {
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
       </Scene>
 
-      <Scene key="Spotify" title="Spotify Login" initial>
+      <Scene key="Spotify" title="Spotify Login">
         <Scene key="SpotifyLogin" component={SpotifyLogin} />
       </Scene>
 
