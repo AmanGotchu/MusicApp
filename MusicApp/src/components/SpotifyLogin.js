@@ -3,7 +3,6 @@ import { Text, Linking, View } from 'react-native';
 import querystring from 'querystring';
 
 const S_CLIENT_ID = '5a7e235500fe40509dee5c659b63f316';
-const S_CLIENT_SECRET = 'e551e52e22fa4caeacc4874a1c6a2fa9';
 const REDIRECT_URI = 'soundhub://callback';
 const extension = querystring.stringify({
   client_id: S_CLIENT_ID,
@@ -12,7 +11,6 @@ const extension = querystring.stringify({
   scope: 'user-read-private user-read-email'
 });
 const url = `https://accounts.spotify.com/authorize/?${extension}`;
-const Buffer = require('buffer/').Buffer;
 
 class SpotifyLogin extends Component {
   state = { refreshToken: '', accessToken: '' }
@@ -34,20 +32,21 @@ class SpotifyLogin extends Component {
       console.error('Denied Spotify Authentication');
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
     } else {
-      const code = event.url.split('=').pop();
-      fetch('https://accounts.spotify.com/api/token', {
+      let code = event.url.split('code=').pop();
+      if (code.includes('#_=_')) {
+        code = code.split('#_=_')[0];
+      }
+      console.log('Code is: ', code);
+      fetch('http://127.0.0.1:5000/auth/token', { //the server hosted with flask
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: 'Basic ' + (new Buffer(S_CLIENT_ID + ':' + S_CLIENT_SECRET).toString('base64'))
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: querystring.stringify({
-          code,
-          redirect_uri: REDIRECT_URI,
-          grant_type: 'authorization_code'
+          code
         })
       }).then((response) => response.json())
-        .then((Jresponse) => this.setTokens(Jresponse));
+      .then((Jresponse) => this.setTokens(Jresponse));
     }
   }
 

@@ -29,7 +29,7 @@ const RouterComponent = () => {
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
       </Scene>
 
-      <Scene key="Spotify" title="Spotify Login" >
+      <Scene key="Spotify" title="Spotify Login" initial>
         <Scene key="SpotifyLogin" component={SpotifyLogin} />
       </Scene>
 

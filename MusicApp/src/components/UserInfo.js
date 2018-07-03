@@ -11,7 +11,8 @@ class UserInfo extends Component {
     componentWillMount() {
         const id = firebase.auth().currentUser.uid;
         firebase.database().ref(`/users/${id}/accountInfo`).once('value')
-        .then((snapshot) => this.setFields(snapshot));
+        .then((snapshot) => this.setFields(snapshot))
+        .catch(error => console.log(error));
     }
 
     setFields(snapshot) {
@@ -183,7 +184,6 @@ const styles = {
 };
 
 const mapStatetoProps = state => {
-    console.log(state.userInfo.discard);
     return {
         firstName: state.userInfo.first,
         lastName: state.userInfo.last,
