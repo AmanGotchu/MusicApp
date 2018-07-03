@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, Linking, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import querystring from 'querystring';
+import firebase from 'firebase';
 
 const S_CLIENT_ID = '5a7e235500fe40509dee5c659b63f316';
 const REDIRECT_URI = 'soundhub://callback';
@@ -15,19 +17,48 @@ const url = `https://accounts.spotify.com/authorize/?${extension}`;
 class SpotifyLogin extends Component {
   state = { refreshToken: '', accessToken: '' }
   componentWillMount() {
-    Linking.openURL(url).catch(err => console.error('an error as occured', err));
-    Linking.addEventListener('url', this.handleOpenURL.bind(this));
+    const id = firebase.auth().currentUser.uid;
+    firebase.database().ref(`/users/${id}/accountInfo/tokens`).once('value')
+    .then((snapshot) => this.configToken(snapshot))
+    .catch(() => { 
+      firebase.database().ref(`/users/${id}/accountInfo/tokens`).push('');
+      firebase.database().ref(`/users/${id}/accountInfo/tokens`).once('value')
+      .then((snapshot) => this.configToken(snapshot));
+      });
   }
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL.bind(this));
   }
 
-  setTokens(JsonData) {
-    this.setState({ accessToken: JsonData.access_token, refreshToken: JsonData.refresh_token });
+  setAccess(accessToken) {
+    console.log(accessToken || 'whoops');
+    this.setState({ accessToken });
+    Actions.Logged_In();
+  }
+
+  configToken(snapshot) {
+    console.log(snapshot.val().RefreshToken);
+    if (snapshot.val().RefreshToken === undefined) {
+      Linking.openURL(url).catch(err => console.error('an error as occured', err));
+      Linking.addEventListener('url', this.handleOpenURL.bind(this));    
+    } else {
+      fetch('http://127.0.0.1:5000/auth/refreshToken', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: querystring.stringify({
+          refresh_token: snapshot.val().RefreshToken
+        })
+      }).then((response) => response.json())
+      .then((Jresponse) => this.setAccess(Jresponse.access_token));
+    }
   }
 
   handleOpenURL(event) {
+    const id = firebase.auth().currentUser.uid;
+
     if (event.url.includes('error')) {
       console.error('Denied Spotify Authentication');
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
@@ -36,8 +67,7 @@ class SpotifyLogin extends Component {
       if (code.includes('#_=_')) {
         code = code.split('#_=_')[0];
       }
-      console.log('Code is: ', code);
-      fetch('http://127.0.0.1:5000/auth/token', { //the server hosted with flask
+      fetch('http://127.0.0.1:5000/auth/newToken', { //the server hosted with flask
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -46,7 +76,11 @@ class SpotifyLogin extends Component {
           code
         })
       }).then((response) => response.json())
-      .then((Jresponse) => this.setTokens(Jresponse));
+      .then((Jresponse) => {
+        firebase.database().ref(`/users/${id}/accountInfo/tokens`)
+        .set({ RefreshToken: Jresponse.refresh_token });
+        this.setAccess(Jresponse.access_token);
+      });
     }
   }
 
@@ -56,9 +90,6 @@ class SpotifyLogin extends Component {
         <Text> 
           Your Access Token is: {this.state.accessToken} 
         </Text >
-        <Text> 
-          Your Refresh Token is: {this.state.refreshToken} 
-        </Text>  
       </View>
     );
   }

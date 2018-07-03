@@ -10,7 +10,7 @@ class UserInfo extends Component {
 
     componentWillMount() {
         const id = firebase.auth().currentUser.uid;
-        firebase.database().ref(`/users/${id}/accountInfo`).once('value')
+        firebase.database().ref(`/users/${id}/accountInfo/personalDetails`).once('value')
         .then((snapshot) => this.setFields(snapshot))
         .catch(error => console.log(error));
     }
@@ -20,6 +20,8 @@ class UserInfo extends Component {
         this.initLastName = snapshot.val().lastName;
         this.firstTextChange(this.initFirstName);
         this.lastTextChange(this.initLastName);
+        console.log(this.props.firstName);
+        console.log(this.props.lastName);
     }
 
     setOverlay() {
@@ -35,7 +37,7 @@ class UserInfo extends Component {
         const { firstName, lastName } = this.props;
         const id = firebase.auth().currentUser.uid;
 
-        firebase.database().ref(`/users/${id}/accountInfo`)
+        firebase.database().ref(`/users/${id}/accountInfo/personalDetails`)
         .set({ firstName, lastName })
         .then(() => Actions.pop())
         .catch((error) => console.log(error));
