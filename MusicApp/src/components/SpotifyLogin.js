@@ -10,7 +10,7 @@ const extension = querystring.stringify({
   client_id: S_CLIENT_ID,
   response_type: 'code',
   redirect_uri: REDIRECT_URI,
-  scope: 'user-read-private user-read-email'
+  scope: 'user-read-private user-read-email user-read-recently-played user-top-read'
 });
 const url = `https://accounts.spotify.com/authorize/?${extension}`;
 
@@ -31,11 +31,11 @@ class SpotifyLogin extends Component {
     Linking.removeEventListener('url', this.handleOpenURL.bind(this));
   }
 
-  setAccess(accessToken) {
+  /*setAccess(accessToken) {
     console.log(accessToken || 'whoops');
     this.setState({ accessToken });
     Actions.Logged_In();
-  }
+  }*/
 
   configToken(snapshot) {
     console.log(snapshot.val().RefreshToken);
@@ -43,7 +43,8 @@ class SpotifyLogin extends Component {
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
       Linking.addEventListener('url', this.handleOpenURL.bind(this));    
     } else {
-      fetch('http://127.0.0.1:5000/auth/refreshToken', {
+      Actions.Logged_In();
+      /*fetch('http://127.0.0.1:5000/auth/refreshToken', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -53,6 +54,7 @@ class SpotifyLogin extends Component {
         })
       }).then((response) => response.json())
       .then((Jresponse) => this.setAccess(Jresponse.access_token));
+      */
     }
   }
 
@@ -79,7 +81,8 @@ class SpotifyLogin extends Component {
       .then((Jresponse) => {
         firebase.database().ref(`/users/${id}/accountInfo/tokens`)
         .set({ RefreshToken: Jresponse.refresh_token });
-        this.setAccess(Jresponse.access_token);
+        Actions.Logged_In();
+        /*this.setAccess(Jresponse.access_token);*/
       });
     }
   }
