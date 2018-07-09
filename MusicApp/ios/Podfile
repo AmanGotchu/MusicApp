@@ -21,6 +21,8 @@ target 'MusicApp' do
     'RCTText',
     'RCTVibration',
     'RCTWebSocket',
+    'RCTGeolocation',
+
   ]
   
   pod 'lottie-ios', :path => '../node_modules/lottie-ios'

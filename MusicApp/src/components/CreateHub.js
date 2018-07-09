@@ -4,21 +4,50 @@ import { Header, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 
+
 class CreateHub extends Component {
-    state = { hubId: '' }
+    state = { hubId: '',
+              getPosError: null,
+              createHubLat: Number,
+              createHubLong: Number
+            }
     onCreateHubButtonPress() {
         //const id = firebase.auth().currentUser.uid;
         //take data from input fields and send off to createHub
+        // fetch('http://127.0.0.1:5000/hubs/addHub', {
+        //     method: 'GET'
+        // })
+        // .then(response => console.log(response.text()))
+        // .then(Jresponse => this.setState({ hubId: Jresponse }));
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+              this.setState({
+                createHubLat: position.coords.latitude,
+                createHubLong: position.coords.longitude,
+                getPosError: null,
+              });
+            },
+            (error) => this.setState({ getPosError: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+
         fetch('http://127.0.0.1:5000/hubs/addHub', {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(Jresponse => this.setState({ hubId: Jresponse }));
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  latitude: this.state.createHubLat || 0,
+                  longitude: this.state.createHubLong || 0,
+                })
+              });
     }
 
     renderBack() {
         return (
-            <Icon   
+            <Icon
                 containerStyle={{ paddingTop: 17 }}
                 name='ios-arrow-back'
                 onPress={() => Actions.Home()}
@@ -74,4 +103,3 @@ const styles = {
 };
 
 export default CreateHub;
-
