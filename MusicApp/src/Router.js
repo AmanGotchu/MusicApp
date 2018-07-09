@@ -7,6 +7,8 @@ import Registration from './components/Registration';
 import HubListMap from './components/HubListMap';
 import Home from './components/Home';
 import UserInfo from './components/UserInfo';
+import CreateHub from './components/CreateHub';
+import CurrentHub from './components/CurrentHub';
 
 const RouterComponent = () => {
   return (
@@ -14,7 +16,7 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
-      <Scene key="HubList" initial>
+      <Scene key="HubList">
         <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
       </Scene>
 
@@ -24,9 +26,11 @@ const RouterComponent = () => {
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Logged_In">
+      <Scene key="Logged_In" initial>
         <Scene key="Home" component={Home} title="HomePage" hideNavBar />
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
+        <Scene key="CreateHub" component={CreateHub} title="HubCreation" hideNavBar initial />
+        <Scene key="CurrentHub" component={CurrentHub} title="thisHub" hideNavBar />
       </Scene>
 
       <Scene key="Spotify" title="Spotify Login">

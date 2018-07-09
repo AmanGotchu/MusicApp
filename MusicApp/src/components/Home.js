@@ -13,26 +13,27 @@ const homeChoices = [
         PressAction: () => Actions.UserInfo()
     },
     {
-        title: '2',
-        icon: 'mail',
-        PressAction: () => console.log(2)
+        title: 'Create a Hub',
+        icon: 'add',
+        type: 'MaterialIcons',
+        iconPaddingLeft: 0,
+        textPaddingLeft: 0,
+        PressAction: () => Actions.CreateHub()
     },
     {
-        title: '3',
-        icon: 'mail',
-        PressAction: () => console.log(3)
-    },
-    {
-        title: '4',
-        icon: 'mail',
-        PressAction: () => console.log(3)
-    },
+        title: 'Current Hub',
+        icon: 'sound',
+        type: 'foundation',
+        iconPaddingLeft: 9,
+        textPaddingLeft: 4,
+        PressAction: () => Actions.CurrentHub()
+    }
 ];
 
 class Home extends Component {
     state = { bounceValue: new Animated.Value(-100) }
 
-    toggleSubview() {    
+    toggleSubview() {
         let toValue = -100;
 
         if (isHidden) {
@@ -50,7 +51,7 @@ class Home extends Component {
         ).start();
         
         isHidden = !isHidden;
-      }
+    }
 
     renderCog() {
         return (
@@ -93,8 +94,8 @@ class Home extends Component {
                                 leftIcon={{ name: item.icon, color: 'white', type: item.type }}
                                 onPress={item.PressAction}
                                 underlayColor='rgba(0, 0, 0, .0)'
-                                wrapperStyle={{ paddingLeft: 5 }}
-                                titleStyle={{ color: 'white' }}
+                                wrapperStyle={{ paddingLeft: item.iconPaddingLeft || 5 }}
+                                titleStyle={{ color: 'white', paddingLeft: item.textPaddingLeft }}
                             />
                         ))
                     }
