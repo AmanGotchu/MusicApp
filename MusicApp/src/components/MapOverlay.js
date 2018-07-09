@@ -17,19 +17,17 @@ class MapOverlay extends Component {
 const styles = {
   container: {
     position: 'absolute',
-    height: Dimensions.get('window').height / 3,
-    width: Dimensions.get('window').width / 3,
     right: 20,
     bottom: 20,
+    height: Dimensions.get('window').height / 3,
+    width: Dimensions.get('window').width / 3,
+    justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
   },
   text: {
-    position: 'relative',
-    justifyContent: 'flex-start',
-    top: 0
+
   }
 };
 

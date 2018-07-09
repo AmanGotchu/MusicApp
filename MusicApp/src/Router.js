@@ -18,7 +18,7 @@ const RouterComponent = () => {
         <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
       </Scene>
 
-      <Scene key="appAuth" initial>
+      <Scene key="appAuth">
         <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
       </Scene>
 

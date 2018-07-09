@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import LottieView from 'lottie-react-native';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { Dimensions, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MapOverlay from './MapOverlay';
 import { overlayNameChange, overlaySongChange, overlayNumUsersChange } from './actions';
+import Radar from '../Animations/radar.json';
+
 
 class HubListMap extends Component {
 
@@ -15,37 +19,14 @@ state = {
     longitudeDelta: 0.0421
   },
   markers: [
-    {
-      key: 1,
-      hubName: 'Aman House',
-      numUsers: 6,
-      currSong: 'Pokemon Master',
-      latlng: {
-            latitude: 37.8,
-            longitude: -122.43244,
-      }
-    },
-    {
-      key: 2,
-      hubName: 'Andy House',
-      numUsers: 7,
-      currSong: 'Gang Starr',
-      latlng: {
-            latitude: 37.788,
-            longitude: -122.456,
-      }
-    },
-    {
-      key: 3,
-      hubName: 'Trap House',
-      numUsers: 100,
-      currSong: 'Trap Queen',
-      latlng: {
-            latitude: 37.787,
-            longitude: -122.4324,
-      }
-    }
+
   ]
+}
+
+componentWillMount() {
+  axios.get('http://127.0.0.1:5000/hubs/getHubs/')
+   .then(result =>
+     this.setState({ markers: JSON.parse(result.request.response) }));
 }
 
 onMarkerClick(marker) {
@@ -61,24 +42,27 @@ render() {
   return (
 
 <View>
-    <MapView
-        ref={(el) => (this.map = el)}
-        initialRegion={this.state.viewRegion}
-        style={styles.map}
-    >
 
 
-    {this.state.markers.map(marker => (
-    <Marker
-      key={marker.key}
-      coordinate={marker.latlng}
-      onPress={() => this.onMarkerClick(marker)}
-    />
-  ))}
+<MapView
+    ref={(el) => (this.map = el)}
+    initialRegion={this.state.viewRegion}
+    style={styles.map}
+>
 
 
-    <MapOverlay hubName={this.props.hubName} currSong={this.props.currSong} numUsers={this.props.numUsers} />
-    </MapView>
+{this.state.markers.map(marker => (
+<Marker
+  key={marker.key}
+  coordinate={marker.latlng}
+  onPress={() => this.onMarkerClick(marker)}
+/>
+))}
+
+
+<MapOverlay hubName={this.props.hubName} currSong={this.props.currSong} numUsers={this.props.numUsers} />
+</MapView>
+
 </View>
   );
 }

@@ -15,6 +15,7 @@
     "firebase": "^5.1.0",
     "http": "0.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "lottie-react-native": "^2.5.0",
     "net": "^1.0.2",
     "npm": "^6.1.0",
     "querystring": "^0.2.0",
