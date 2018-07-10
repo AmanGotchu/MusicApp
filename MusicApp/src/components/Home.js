@@ -13,12 +13,12 @@ const homeChoices = [
         PressAction: () => Actions.UserInfo()
     },
     {
-        title: 'Create a Hub',
+        title: 'Manage Your Hub',
         icon: 'add',
         type: 'MaterialIcons',
         iconPaddingLeft: 0,
         textPaddingLeft: 0,
-        PressAction: () => Actions.CreateHub()
+        PressAction: () => Actions.ManageHub()
     },
     {
         title: 'Current Hub',

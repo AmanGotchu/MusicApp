@@ -13,3 +13,5 @@ export const DISCARD_CHANGES = 'discard_changes';
 export const MAP_OVERLAY_NAME_CHANGE = 'map_overlay_name_change';
 export const MAP_OVERLAY_SONG_CHANGE = 'map_overlay_song_change';
 export const MAP_OVERLAY_NUMUSERS_CHANGE = 'map_overlay_numusers_change';
+
+export const SET_HUB_ID = 'set_hub_id';

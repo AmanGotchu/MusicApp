@@ -7,7 +7,7 @@ import Registration from './components/Registration';
 import HubListMap from './components/HubListMap';
 import Home from './components/Home';
 import UserInfo from './components/UserInfo';
-import CreateHub from './components/CreateHub';
+import ManageHub from './components/ManageHub';
 import CurrentHub from './components/CurrentHub';
 
 const RouterComponent = () => {
@@ -16,20 +16,20 @@ const RouterComponent = () => {
     <Router>
     <Scene key="root" hideNavBar>
 
-      <Scene key="HubList">
+      {/* <Scene key="HubList">
         <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
-      </Scene>
+      </Scene> */}
 
       <Scene key="appAuth">
-        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
+        <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar initial />
       </Scene>
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Logged_In" initial>
+      <Scene key="Logged_In">
         <Scene key="Home" component={Home} title="HomePage" hideNavBar />
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
-        <Scene key="CreateHub" component={CreateHub} title="HubCreation" hideNavBar initial />
+        <Scene key="ManageHub" component={ManageHub} title="HubCreation" hideNavBar initial />
         <Scene key="CurrentHub" component={CurrentHub} title="thisHub" hideNavBar />
       </Scene>
 
