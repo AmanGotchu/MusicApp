@@ -10,26 +10,26 @@ import { setCurrentSong, setTrackAttributes } from './actions';
 class ManageHub extends Component {
     componentWillMount() {
         const userId = firebase.auth().currentUser.uid;
-        fetch('http://127.0.0.1:5000/hubs/getRecentlyPlayed', {
+        fetch('https://soundhubflask.herokuapp.com/hubs/getRecentlyPlayed', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: querystring.stringify({
-                userId, 
-                hubId: this.props.hubId 
+                userId,
+                hubId: this.props.hubId
             })
         }).then(response => response.json().then(
             songInfo => this.props.setCurrentSong(songInfo)))
         .catch(() => {
-            fetch('http://127.0.0.1:5000/hubs/getNextSong', {
+            fetch('https://soundhubflask.herokuapp.com/hubs/getNextSong', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: querystring.stringify({
-                    userId, 
-                    hubId: this.props.hubId 
+                    userId,
+                    hubId: this.props.hubId
                 })
             }).then(response => response.json().then(
                 songInfo => this.props.setCurrentSong(songInfo)))
@@ -39,7 +39,7 @@ class ManageHub extends Component {
 
     getNextSong() {
         const userId = firebase.auth().currentUser.uid;
-        fetch('http://127.0.0.1:5000/hubs/getNextSong', {
+        fetch('https://soundhubflask.herokuapp.com/hubs/getNextSong', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -56,7 +56,7 @@ class ManageHub extends Component {
 
     getPreviousSong() {
         const userId = firebase.auth().currentUser.uid;
-        fetch('http://127.0.0.1:5000/hubs/getPreviousSong', {
+        fetch('https://soundhubflask.herokuapp.com/hubs/getPreviousSong', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -105,8 +105,8 @@ class ManageHub extends Component {
             return (
                 <Text
                     style={{ alignSelf: 'center', color: 'white' }}
-                > 
-                    {this.props.currSongInfo.artists[0].name} 
+                >
+                    {this.props.currSongInfo.artists[0].name}
                 </Text>
             );
         }
@@ -121,8 +121,8 @@ class ManageHub extends Component {
             return (
                 <Text
                     style={{ alignSelf: 'center', color: 'white' }}
-                > 
-                    {this.props.currSongInfo.name} 
+                >
+                    {this.props.currSongInfo.name}
                 </Text>
             );
         }
