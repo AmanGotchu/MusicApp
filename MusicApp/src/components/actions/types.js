@@ -15,3 +15,4 @@ export const MAP_OVERLAY_SONG_CHANGE = 'map_overlay_song_change';
 export const MAP_OVERLAY_NUMUSERS_CHANGE = 'map_overlay_numusers_change';
 
 export const SET_HUB_ID = 'set_hub_id';
+export const SET_CURRENT_SONG = 'set_current_song';

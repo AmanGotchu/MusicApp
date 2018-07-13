@@ -38,7 +38,6 @@ class SpotifyLogin extends Component {
   }*/
 
   configToken(snapshot) {
-    console.log(snapshot.val().RefreshToken);
     if (snapshot.val().RefreshToken === undefined) {
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
       Linking.addEventListener('url', this.handleOpenURL.bind(this));    

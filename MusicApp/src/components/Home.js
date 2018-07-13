@@ -2,36 +2,52 @@ import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
 import { Header, Icon, ListItem, List } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
 import 'react-native-vector-icons';
+import { setHubId } from './actions';
 
+const bounceValue = new Animated.Value(-100);
 let isHidden = true;
-const homeChoices = [
-    {
-        title: 'User Settings',
-        icon: 'cog',
-        type: 'entypo',
-        PressAction: () => Actions.UserInfo()
-    },
-    {
-        title: 'Manage Your Hub',
-        icon: 'add',
-        type: 'MaterialIcons',
-        iconPaddingLeft: 0,
-        textPaddingLeft: 0,
-        PressAction: () => Actions.ManageHub()
-    },
-    {
-        title: 'Current Hub',
-        icon: 'sound',
-        type: 'foundation',
-        iconPaddingLeft: 9,
-        textPaddingLeft: 4,
-        PressAction: () => Actions.CurrentHub()
-    }
-];
 
 class Home extends Component {
-    state = { bounceValue: new Animated.Value(-100) }
+    componentWillMount() {
+        const id = firebase.auth().currentUser.uid;
+        firebase.database().ref(`/users/${id}/accountInfo`).once('value')
+        .then((snapshot) => this.props.setHubId(snapshot.val().hostingHubId));
+    }
+
+    getHubDirection() {
+        console.log(this.props.hubId);
+        if (this.props.hubId) {
+            Actions.ManageHub();
+        } else {
+            Actions.CreateHub();
+        }
+    }
+
+    homeChoices = [
+        {
+            title: 'User Settings',
+            icon: 'cog',
+            type: 'entypo',
+            PressAction: () => Actions.UserInfo()
+        },
+        {
+            title: 'Manage Your Hub',
+            icon: 'add',
+            type: 'MaterialIcons',
+            PressAction: () => this.getHubDirection()
+        },
+        {
+            title: 'Current Hub',
+            icon: 'sound',
+            type: 'foundation',
+            iconPaddingLeft: 9,
+            textPaddingLeft: 4,
+            PressAction: () => Actions.CurrentHub()
+        }
+    ];
 
     toggleSubview() {
         let toValue = -100;
@@ -41,7 +57,7 @@ class Home extends Component {
         }
         
         Animated.spring(
-        this.state.bounceValue,
+        bounceValue,
         {
             toValue,
             velocity: 3,
@@ -83,11 +99,11 @@ class Home extends Component {
             <View>
             <Animated.View
                 style={[styles.subView,
-                { transform: [{ translateY: this.state.bounceValue }] }]}
+                { transform: [{ translateY: bounceValue }] }]}
             >
                 <List containerStyle={styles.ListContainer}>
                     {
-                        homeChoices.map((item, i) => (
+                        this.homeChoices.map((item, i) => (
                             <ListItem
                                 key={i}
                                 title={item.title}
@@ -112,6 +128,15 @@ class Home extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        hubId: state.hubManage.hubId
+    };
+};
+
+export default connect(mapStateToProps, {
+    setHubId })(Home);
+
 const styles = {
     subView: {
         position: 'absolute',
@@ -126,4 +151,3 @@ const styles = {
     }
 };
 
-export default Home;

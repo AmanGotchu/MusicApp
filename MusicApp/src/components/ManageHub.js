@@ -1,46 +1,40 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { Header, Icon } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux';
+import { View, Text, Image } from 'react-native';
+import { Icon, Header } from 'react-native-elements';
 import { connect } from 'react-redux';
-import querystring from 'querystring';
+import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
-import { setHubId } from './actions';
+import querystring from 'querystring';
+import { setCurrentSong, setTrackAttributes } from './actions';
 
-class CreateHub extends Component {
-
+class ManageHub extends Component {
     componentWillMount() {
-        const id = firebase.auth().currentUser.uid;
-        firebase.database().ref(`/users/${id}/accountInfo`).once('value')
-        .then((snapshot) => {
-            if (snapshot.val().hostingHubId) {
-                this.props.setHubId(snapshot.val().hostingHubId);
-            } else {
-                this.props.setHubId('');
-            }
-        })
-        .catch(error => console.log(error));
-    }
-
-    onCreateHubButtonPress() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const userId = firebase.auth().currentUser.uid;
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                fetch('http://127.0.0.1:5000/hubs/addHub', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: querystring.stringify({
-                        lat,
-                        lng,
-                        userId
-                    })
-                });
-            }
-        );
+        const userId = firebase.auth().currentUser.uid;
+        fetch('http://127.0.0.1:5000/hubs/getRecentlyPlayed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: querystring.stringify({
+                userId, 
+                hubId: this.props.hubId 
+            })
+        }).then(response => response.json().then(
+            songInfo => this.props.setCurrentSong(songInfo)))
+        .catch(() => {
+            fetch('http://127.0.0.1:5000/hubs/getNextSong', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: querystring.stringify({
+                    userId, 
+                    hubId: this.props.hubId 
+                })
+            }).then(response => response.json().then(
+                songInfo => this.props.setCurrentSong(songInfo)))
+            .catch((err) => console.log(err));
+        });
     }
 
     renderBack() {
@@ -56,67 +50,46 @@ class CreateHub extends Component {
         );
     }
 
-    renderScreen() {
-        if (!this.props.hubId) {
+    renderCenterComponent() {
+        if (this.props.currSongInfo) {
+            console.log(this.props.currSongInfo.album);
             return (
-            <View style={{ flex: 1 }} >
-                <View style={styles.buttonAlignment}>
-                    <TouchableOpacity
-                        style={styles.createHubButton}
-                        onPress={() => this.onCreateHubButtonPress()}
-                    >
-                    <Text style={styles.createHubText}>
-                        Create Hub
-                    </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                <Image
+                    source={{ url: this.props.currSongInfo.album.images[0].url }}
+                    style={{ height: 300, width: 300 }}
+                />
             );
         }
+
         return (
-            <View style={{ flex: 1, backgroundColor: 'yellow' }} >
-                <Text>{this.props.hubId}</Text>
-            </View>
+            <Text> Filler </Text>
         );
     }
 
     render() {
+        console.log(this.renderCenterComponent(), 'render');
         return (
-            <View style={{ backgroundColor: 'red', flex: 1, justifyContent: 'center' }}>
+            <View style={{ flex: 1, backgroundColor: 'grey' }}>
                 <Header
                     leftComponent={this.renderBack()}
                     backgroundColor='blue'
                 />
-                {this.renderScreen()}
+                <Text> Hello </Text>
+                <View style={{ backgroundColor: 'black', flex: 1 }} >
+                    {this.renderCenterComponent()}
+                </View>
             </View>
         );
     }
 }
 
-const styles = {
-    buttonAlignment: {
-        backgroundColor: 'grey',
-        flex: 1,
-    },
-    createHubButton: {
-        backgroundColor: '#C0C0C0',
-        position: 'absolute',
-        bottom: 30,
-        left: 50,
-        right: 50
-    },
-    createHubText: {
-        margin: 30,
-        alignSelf: 'center',
-        color: 'white'
-    }
-};
-
 const mapStateToProps = state => {
     return {
         hubId: state.hubManage.hubId,
+        currSongInfo: state.hubManage.currentSongInfo
     };
 };
 
 export default connect(mapStateToProps, {
-    setHubId })(CreateHub);
+    setCurrentSong,
+    setTrackAttributes })(ManageHub);
