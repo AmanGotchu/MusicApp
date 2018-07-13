@@ -6,7 +6,7 @@ import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Dimensions, View, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { overlayNameChange, overlaySongChange, overlayNumUsersChange } from './actions';
+import { overlayNameChange, overlaySongChange, overlayNumUsersChange, joinMapHub } from './actions';
 
 
 class HubListMap extends Component {
@@ -21,7 +21,8 @@ state = {
     markers: [
 
     ],
-    hubID: null
+    hoverHubID: null,
+    joinedHubID: null
   };
 
 componentWillMount() {
@@ -36,22 +37,29 @@ onMarkerClick(marker) {
   this.props.overlayNumUsersChange(marker.numUsers);
   this.props.overlaySongChange(marker.currSong);
 
-  this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, hubID: marker.hubID });
+  this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, hoverHubID: marker.hubID });
   this.map.animateToRegion({ latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, 100);
-  console.log(marker.hubID);
+  console.log('You clicked on this hub ' + marker.hubID);
  }
 
  onButtonClick() {
-   fetch('https://soundhubflask.herokuapp.com/hubs/addUser', {
-       method: 'POST',
-       headers: {
-           'Content-Type': 'application/x-www-form-urlencoded'
-       },
-       body: querystring.stringify({
-           user_id: firebase.auth().currentUser.uid,
-           hub_id: this.state.hubID
-       })
-   });
+   if (this.state.hoverHubID === null) {
+     console.log('Select a Hub!');
+   } else if (this.props.joinedHubID == null) {
+     console.log('You are joining this hub ' + this.state.hoverHubID);
+     fetch('https://soundhubflask.herokuapp.com/hubs/addUser', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/x-www-form-urlencoded'
+         },
+         body: querystring.stringify({
+             user_id: firebase.auth().currentUser.uid,
+             hub_id: this.state.hoverHubID
+         })
+     }).then(() => this.props.joinMapHub(this.state.hoverHubID));
+   } else {
+     console.log("You're already in this hub: " + this.props.joinedHubID);
+   }
  }
 
 render() {
@@ -126,12 +134,14 @@ const mapStateToProps = state => {
   return {
     hubName: state.map.hubName,
     currSong: state.map.currSong,
-    numUsers: state.map.numUsers
+    numUsers: state.map.numUsers,
+    joinedHubID: state.map.joinedHubID
   };
 };
 
 export default connect(mapStateToProps, {
   overlaySongChange,
   overlayNameChange,
-  overlayNumUsersChange
+  overlayNumUsersChange,
+  joinMapHub
 })(HubListMap);
