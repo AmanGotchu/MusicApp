@@ -20,7 +20,7 @@ class SpotifyLogin extends Component {
     const id = firebase.auth().currentUser.uid;
     firebase.database().ref(`/users/${id}/accountInfo/tokens`).once('value')
     .then((snapshot) => this.configToken(snapshot))
-    .catch(() => { 
+    .catch(() => {
       firebase.database().ref(`/users/${id}/accountInfo/tokens`).push('');
       firebase.database().ref(`/users/${id}/accountInfo/tokens`).once('value')
       .then((snapshot) => this.configToken(snapshot));
@@ -40,7 +40,7 @@ class SpotifyLogin extends Component {
   configToken(snapshot) {
     if (snapshot.val().RefreshToken === undefined) {
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
-      Linking.addEventListener('url', this.handleOpenURL.bind(this));    
+      Linking.addEventListener('url', this.handleOpenURL.bind(this));
     } else {
       Actions.Logged_In();
       /*fetch('http://127.0.0.1:5000/auth/refreshToken', {
@@ -68,7 +68,7 @@ class SpotifyLogin extends Component {
       if (code.includes('#_=_')) {
         code = code.split('#_=_')[0];
       }
-      fetch('http://127.0.0.1:5000/auth/newToken', { //the server hosted with flask
+      fetch('https://soundhubflask.herokuapp.com/auth/newToken', { //the server hosted with flask
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -89,8 +89,8 @@ class SpotifyLogin extends Component {
   render() {
     return (
       <View style={{ flex: 1, alignContent: 'center' }}>
-        <Text> 
-          Your Access Token is: {this.state.accessToken} 
+        <Text>
+          Your Access Token is: {this.state.accessToken}
         </Text >
       </View>
     );

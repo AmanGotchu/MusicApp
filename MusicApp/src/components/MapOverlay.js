@@ -7,14 +7,12 @@ class MapOverlay extends Component {
   render() {
    return (
      <View style={styles.container}>
-        <Text style={styles.text}> {this.props.hubName} </Text>
-        <Text style={styles.text}> {this.props.currSong} </Text>
-        <Text style={styles.text}> {this.props.numUsers} </Text>
-        <Button 
-        icon={{ name: 'squirrel', type: 'octicon', buttonStyle: styles.someButtonStyle }}
-        title='OCTICON'
-        />
+        <Text> TestName </Text>
+        <Text> TestSong </Text>
+        <Text> TestNum </Text>
      </View>
+
+     
    );
   }
 }
@@ -24,15 +22,12 @@ const styles = {
     position: 'absolute',
     right: 20,
     bottom: 20,
-    height: Dimensions.get('window').height / 3,
-    width: Dimensions.get('window').width / 3,
+    height: 200,
+    width: 200,
     justifyContent: 'center',
     backgroundColor: 'white',
     flexDirection: 'column',
     alignItems: 'center'
-  },
-  text: {
-
   }
 };
 

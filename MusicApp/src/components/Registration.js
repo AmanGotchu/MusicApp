@@ -3,10 +3,10 @@ import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Card } from './common';
-import { 
-  emailChanged, 
-  passwordChanged, 
-  passwordChanged2, 
+import {
+  emailChanged,
+  passwordChanged,
+  passwordChanged2,
   registerUser,
   passwordNonMatch } from './actions';
 
@@ -16,7 +16,7 @@ import {
 class Registration extends Component {
 
    onPressRegister() {
-    Actions.Register();
+    Actions.Map();
    }
 
   onRegisterButtonPress() {
@@ -39,7 +39,7 @@ class Registration extends Component {
     this.props.passwordChanged2(text);
   }
 
-  renderError() { 
+  renderError() {
     if (this.props.error) {
       return (
         <View style={{ paddingBottom: 10, paddingRight: 10, paddingLeft: 10 }}>
@@ -63,7 +63,7 @@ class Registration extends Component {
 
             <View style={styles.InputContainer}>
               <View style={styles.InputStyling}>
-                <TextInput 
+                <TextInput
                 style={{ flex: 1, fontSize: 18 }}
                 label="Email"
                 placeholder="Email"
@@ -106,12 +106,12 @@ class Registration extends Component {
             </View>
 
             <View style={styles.ButtonContainer}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.ButtonStyling}
                 onPress={this.onRegisterButtonPress.bind(this)}
               >
-                <ImageBackground 
-                  source={ButtonBack} 
+                <ImageBackground
+                  source={ButtonBack}
                   style={{}}
                   borderRadius={10}
                 >
@@ -131,14 +131,14 @@ class Registration extends Component {
 const styles = {
   RegisterStyle: {
     flexDirection: 'row',
-    alignContent: 'center', 
-    paddingLeft: 5, 
-    justifyContent: 'center', 
+    alignContent: 'center',
+    paddingLeft: 5,
+    justifyContent: 'center',
     paddingTop: 50
   },
   ErrorContainer: {
     flexDirection: 'row',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignContent: 'center',
     borderColor: 'orange',
     borderRadius: 3,
@@ -148,8 +148,8 @@ const styles = {
     backgroundColor: 'orange'
   },
   BackgroundStyle: {
-    flex: 1, 
-    flexDirection: 'column', 
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     paddingRight: 15,
     paddingLeft: 15,
@@ -238,8 +238,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { 
-  emailChanged, 
+export default connect(mapStateToProps, {
+  emailChanged,
   passwordChanged,
   passwordChanged2,
   registerUser,

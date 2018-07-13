@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
-import LottieView from 'lottie-react-native';
 import axios from 'axios';
+import firebase from 'firebase';
+import querystring from 'querystring';
+import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, View, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import MapOverlay from './MapOverlay';
 import { overlayNameChange, overlaySongChange, overlayNumUsersChange } from './actions';
-import Radar from '../Animations/radar.json';
 
 
 class HubListMap extends Component {
 
 state = {
-  viewRegion: {
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421
-  },
-  markers: [
+    viewRegion: {
+      latitude: 37.78825,
+      longitude: -122.4324,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    },
+    markers: [
 
-  ]
-}
+    ],
+    hubID: null
+  };
 
 componentWillMount() {
-  axios.get('http://127.0.0.1:5000/hubs/getHubs/')
+  axios.get('https://soundhubflask.herokuapp.com/hubs/getHubs/')
    .then(result =>
-     this.setState({ markers: JSON.parse(result.request.response) }));
+    this.setState({ markers: JSON.parse(result.request.response) })
+   );
 }
 
 onMarkerClick(marker) {
@@ -34,8 +36,22 @@ onMarkerClick(marker) {
   this.props.overlayNumUsersChange(marker.numUsers);
   this.props.overlaySongChange(marker.currSong);
 
-  this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude } });
+  this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, hubID: marker.hubID });
   this.map.animateToRegion({ latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, 100);
+  console.log(marker.hubID);
+ }
+
+ onButtonClick() {
+   fetch('https://soundhubflask.herokuapp.com/hubs/addUser', {
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/x-www-form-urlencoded'
+       },
+       body: querystring.stringify({
+           user_id: firebase.auth().currentUser.uid,
+           hub_id: this.state.hubID
+       })
+   });
  }
 
 render() {
@@ -51,19 +67,37 @@ render() {
 >
 
 
-{this.state.markers.map(marker => (
+{this.state.markers.map((marker, index) => (
 <Marker
-  key={marker.key}
+  key={index}
   coordinate={marker.latlng}
   onPress={() => this.onMarkerClick(marker)}
 />
 ))}
 
-
-<MapOverlay hubName={this.props.hubName} currSong={this.props.currSong} numUsers={this.props.numUsers} />
 </MapView>
 
+<Card
+  containerStyle={styles.container}
+  title="Hub Info"
+
+>
+  <Text>Name: Fortnite Friday</Text>
+  <Text>Song: I play Pokemon Go!</Text>
+  <Text>Users: 100</Text>
+  <Button
+    leftIcon={{
+      name: 'login',
+      type: 'simple-line-icon'
+     }}
+    style={{ marginTop: 20 }}
+    backgroundColor='#F18F01'
+    title='Join Hub'
+    onPress={() => this.onButtonClick()}
+  />
+</Card>
 </View>
+
   );
 }
 
@@ -74,13 +108,16 @@ map: {
   width: Dimensions.get('window').width,
   height: Dimensions.get('window').height
 },
-view: {
+container: {
   position: 'absolute',
-  width: 100,
-  height: 100,
-  bottom: 10,
-  right: 10,
-  backgroundColor: 'blue'
+  right: 20,
+  bottom: 20,
+  height: 200,
+  width: 200,
+  justifyContent: 'center',
+  backgroundColor: 'white',
+  flexDirection: 'column',
+  alignItems: 'center'
 }
 };
 

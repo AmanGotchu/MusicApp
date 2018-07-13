@@ -28,7 +28,7 @@ class CreateHub extends Component {
                 const userId = firebase.auth().currentUser.uid;
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                fetch('http://127.0.0.1:5000/hubs/addHub', {
+                fetch('https://soundhubflask.herokuapp.com/hubs/addHub', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'

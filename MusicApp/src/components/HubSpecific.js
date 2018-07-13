@@ -6,7 +6,7 @@ class HubSpecific extends Component {
 render() {
   return (
     <View>
-      
+
     </View>
   );
 }
