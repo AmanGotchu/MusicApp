@@ -13,6 +13,7 @@ export const DISCARD_CHANGES = 'discard_changes';
 export const MAP_OVERLAY_NAME_CHANGE = 'map_overlay_name_change';
 export const MAP_OVERLAY_SONG_CHANGE = 'map_overlay_song_change';
 export const MAP_OVERLAY_NUMUSERS_CHANGE = 'map_overlay_numusers_change';
+export const JOIN_HUB_MAP = 'join_hub_map';
 
 export const SET_HUB_ID = 'set_hub_id';
 export const SET_CURRENT_SONG = 'set_current_song';
