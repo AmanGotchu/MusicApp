@@ -10,7 +10,7 @@ import { setHubId } from './actions';
 class CreateHub extends Component {
 
     componentWillMount() {
-        const id = firebase.auth().currentUser.uid;
+        const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
         firebase.database().ref(`/users/${id}/accountInfo`).once('value')
         .then((snapshot) => {
             if (snapshot.val().hostingHubId) {

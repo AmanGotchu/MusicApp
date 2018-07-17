@@ -5,6 +5,7 @@ import { Header, Icon, FormInput, FormLabel, FormValidationMessage } from 'react
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { firstNameChange, lastNameChange, discardChanges } from './actions';
+import { DeleteOverlay } from './common/DeleteOverlay';
 
 class UserInfo extends Component {
 
@@ -20,8 +21,6 @@ class UserInfo extends Component {
         this.initLastName = snapshot.val().lastName;
         this.firstTextChange(this.initFirstName);
         this.lastTextChange(this.initLastName);
-        console.log(this.props.firstName);
-        console.log(this.props.lastName);
     }
 
     setOverlay() {
@@ -55,42 +54,6 @@ class UserInfo extends Component {
         this.props.discardChanges(false);
     }
 
-    renderOverlay() {
-        if (this.props.discard) {
-            return (
-                <View style={styles.discardContainer}>
-                    <Text style={{ color: 'black', alignSelf: 'center', fontSize: 20 }}>
-                        Discard Changes?
-                    </Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 50 }}>
-                        <TouchableOpacity 
-                            onPress={() => {
-                                this.clearOverlay();
-                                Actions.pop();
-                                }
-                            }
-                            style={{ ...styles.DiscButtonContainer, backgroundColor: 'green' }}
-                        >
-                            <Text style={{ alignSelf: 'center', fontSize: 20 }}>
-                                Yes
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => this.clearOverlay()}
-                            style={{ ...styles.DiscButtonContainer, backgroundColor: 'red' }}
-                        >
-                            <Text style={{ alignSelf: 'center', fontSize: 20 }}>
-                                No
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        }
-
-        return;
-    }
-
     renderBack() {
         return (
             <Icon   
@@ -105,6 +68,19 @@ class UserInfo extends Component {
     }
 
     render() {
+        const showDeleteOverlay = 
+        (<DeleteOverlay 
+            onPressYes={() => {
+                this.clearOverlay();
+                Actions.pop();
+            }}
+            onPressNo={() => {
+                this.clearOverlay();
+            }}
+        > 
+            Would you like to discard changes? 
+        </DeleteOverlay>);
+
         return (
             <View style={{ flex: 1 }}>
                 <Header
@@ -137,7 +113,7 @@ class UserInfo extends Component {
                     </TouchableOpacity>
                 </View>
 
-                {this.renderOverlay()}
+                {this.props.discard ? showDeleteOverlay : null }
 
             </View>
         );

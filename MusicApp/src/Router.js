@@ -30,9 +30,8 @@ const RouterComponent = () => {
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Logged_In">
-
-        <Scene key="Home" component={Home} title="HomePage" hideNavBar />
+      <Scene key="Logged_In" initial>
+        <Scene key="Home" component={Home} title="HomePage" hideNavBar initial />
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
         <Scene key="CreateHub" component={CreateHub} title="HubCreation" hideNavBar />
         <Scene key="CurrentHub" component={CurrentHub} title="ThisHub" hideNavBar />

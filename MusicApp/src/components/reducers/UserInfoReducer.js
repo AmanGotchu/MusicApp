@@ -17,6 +17,7 @@ export default (state = INITIAL_STATE, action) => {
         case LAST_NAME_CHANGE:
             return { ...state, last: action.payload };
         case DISCARD_CHANGES:
+            console.log(action.payload);
             return { ...state, discard: action.payload };
         default:
             return state;

@@ -16,3 +16,7 @@ export const MAP_OVERLAY_NUMUSERS_CHANGE = 'map_overlay_numusers_change';
 
 export const SET_HUB_ID = 'set_hub_id';
 export const SET_CURRENT_SONG = 'set_current_song';
+export const DELETE_HUB = 'delete_hub';
+export const SET_PLAYBACK_DEVICE = 'set_playback_device';
+export const SET_AVAILABLE_DEVICES = 'set_available_devices';
+export const EDIT_PLAY_STATE = 'edit_play_state';

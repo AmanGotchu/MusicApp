@@ -10,7 +10,7 @@ const extension = querystring.stringify({
   client_id: S_CLIENT_ID,
   response_type: 'code',
   redirect_uri: REDIRECT_URI,
-  scope: 'user-read-private user-read-email user-read-recently-played user-top-read'
+  scope: 'user-read-private user-read-email user-read-recently-played user-top-read user-modify-playback-state user-read-playback-state'
 });
 const url = `https://accounts.spotify.com/authorize/?${extension}`;
 

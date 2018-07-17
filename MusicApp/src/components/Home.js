@@ -12,13 +12,12 @@ let isHidden = true;
 
 class Home extends Component {
     componentWillMount() {
-        const id = firebase.auth().currentUser.uid;
+        const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
         firebase.database().ref(`/users/${id}/accountInfo`).once('value')
         .then((snapshot) => this.props.setHubId(snapshot.val().hostingHubId));
     }
 
     getHubDirection() {
-        console.log(this.props.hubId);
         if (this.props.hubId) {
             Actions.ManageHub();
         } else {
