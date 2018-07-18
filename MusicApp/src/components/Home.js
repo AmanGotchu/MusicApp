@@ -46,6 +46,14 @@ class Home extends Component {
             iconPaddingLeft: 9,
             textPaddingLeft: 4,
             PressAction: () => Actions.CurrentHub()
+        },
+        {
+            title: 'Map',
+            icon: 'x',
+            type: 'foundation',
+            iconPaddingLeft: 9,
+            textPaddingLeft: 4,
+            PressAction: () => Actions.Map()
         }
     ];
 
