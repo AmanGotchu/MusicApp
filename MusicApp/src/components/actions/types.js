@@ -20,4 +20,6 @@ export const SET_CURRENT_SONG = 'set_current_song';
 export const DELETE_HUB = 'delete_hub';
 export const SET_PLAYBACK_DEVICE = 'set_playback_device';
 export const SET_AVAILABLE_DEVICES = 'set_available_devices';
+export const SET_TIME_SPACING = 'set_time_spacing';
 export const EDIT_PLAY_STATE = 'edit_play_state';
+export const EDIT_SONG_PROGRESS = 'edit_song_progress';

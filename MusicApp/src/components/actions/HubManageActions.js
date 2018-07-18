@@ -4,7 +4,9 @@ import {
     DELETE_HUB,
     SET_PLAYBACK_DEVICE,
     SET_AVAILABLE_DEVICES,
-    EDIT_PLAY_STATE
+    SET_TIME_SPACING,
+    EDIT_PLAY_STATE,
+    EDIT_SONG_PROGRESS
 } from './types';
 
 export const setHubId = (id) => {
@@ -46,5 +48,19 @@ export const editPlayState = state => {
     return {
         type: EDIT_PLAY_STATE,
         payload: state
+    };
+};
+
+export const editSongProgress = time => {
+    return {
+        type: EDIT_SONG_PROGRESS,
+        payload: time
+    };
+};
+
+export const setTimeSpacing = milliseconds => {
+    return {
+        type: SET_TIME_SPACING,
+        payload: milliseconds
     };
 };

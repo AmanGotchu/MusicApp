@@ -3,8 +3,9 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Icon, Header, List, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import TimerMixin from 'react-timer-mixin';
 import querystring from 'querystring';
-import { setCurrentSong, showDeleteHub, setPlaybackDevice, setAvailableDevices, editPlayState } from './actions';
+import { setCurrentSong, showDeleteHub, setPlaybackDevice, setAvailableDevices, setTimeSpacing, editPlayState, editSongProgress } from './actions';
 import { DeleteOverlay } from './common/DeleteOverlay';
 
 class ManageHub extends Component {
@@ -64,6 +65,8 @@ class ManageHub extends Component {
 
     getNextSong() {
         const userId = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
+        this.props.setTimeSpacing(0);
+        this.props.editSongProgress(0);
         fetch('https://soundhubflask.herokuapp.com/hubs/getNextSong', {
             method: 'POST',
             headers: {
@@ -81,6 +84,8 @@ class ManageHub extends Component {
 
     getPreviousSong() {
         const userId = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
+        this.props.setTimeSpacing(0);
+        this.props.editSongProgress(0);
         fetch('https://soundhubflask.herokuapp.com/hubs/getPreviousSong', {
             method: 'POST',
             headers: {
@@ -97,7 +102,11 @@ class ManageHub extends Component {
     }
 
     playSong() {
-        console.log(this.props.currSongInfo);
+        let uris;
+        if (this.props.songProgress <= 5000) {
+            uris = JSON.stringify({ uris: [this.props.currSongInfo.uri] });
+            this.props.editSongProgress(0);
+        }
         const userId = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
         fetch('https://soundhubflask.herokuapp.com/hubs/getAccessToken', {
             method: 'POST',
@@ -107,17 +116,63 @@ class ManageHub extends Component {
             body: querystring.stringify({
                 userId,
             })
-        }).then(response => response.json().then(AccessToken => 
+        }).then(response => response.json().then(AccessToken => {
             fetch(`https://api.spotify.com/v1/me/player/play?device_id=${this.props.playbackDevice.id}`, {
                 method: 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
+                    Accept: 'application/json',
                     Authorization: 'Bearer ' + AccessToken
                 },
-                body: JSON.stringify({
-                    uris: [this.props.currSongInfo.uri]
-                })
-            }))).then(() => this.props.editPlayState('playing'));
+                body: uris
+            }); 
+        })).then(() => this.props.editPlayState('playing'))
+            .then(() => {
+                this.props.setTimeSpacing(new Date().getTime());
+                TimerMixin.setTimeout.call(this, () => { this.updateSongProgress(); }, 1000);
+            });
+    }
+
+    updateSongProgress() {
+        // new Date().getTime()
+        if (this.props.playState && this.props.timeSpacing !== 0) { //if song is playing then keep updating
+            this.props.editSongProgress(this.props.songProgress + (new Date().getTime() - this.props.timeSpacing));
+            this.props.setTimeSpacing(new Date().getTime());
+            TimerMixin.setTimeout.call(this, () => this.updateSongProgress(), 1000);
+        }
+        if (this.props.currSongInfo.duration_ms <= this.props.songProgress) {
+            this.getNextSong();
+        }
+    }
+
+    updateSongProgressSpot() {
+        const userId = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
+        fetch('https://soundhubflask.herokuapp.com/hubs/getAccessToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: querystring.stringify({
+                userId,
+            })
+        }).then(response => response.json().then(AccessToken => {
+            fetch('https://api.spotify.com/v1/me/player', {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + AccessToken
+                }
+            }).then(response2 => response2.json().then(data => this.props.editSongProgress(data.progress_ms)));
+        })); 
+        if (this.props.currSongInfo.duration_ms <= this.props.songProgress) {
+            this.getNextSong();
+        }
+        console.log(this.millisToMinutesAndSeconds(this.props.songProgress));
+    }
+
+    millisToMinutesAndSeconds(millis) {
+        const minutes = Math.floor(millis / 60000);
+        const seconds = ((millis % 60000) / 1000).toFixed(0);
+        return (seconds === 60 ? (minutes + 1) + ':00' : minutes + ':' + (seconds < 10 ? '0' : '') + seconds);
     }
 
     pauseSong() {
@@ -137,7 +192,10 @@ class ManageHub extends Component {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + AccessToken
                 },
-            }))).then(() => this.props.editPlayState(''));
+            }))).then(() => {
+                this.updateSongProgressSpot();
+                this.props.editPlayState('');
+            });
     }
 
 
@@ -305,10 +363,14 @@ class ManageHub extends Component {
                 />
                 <View style={{ backgroundColor: 'black', flex: 1, justifyContent: 'center' }} >
                     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
-
                         {this.renderAlbumCover()}
                         {this.renderArtistName()}
                         {this.renderSongName()}
+                        <Text style={{ color: 'white' }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
+                        <Text style={{ color: 'white' }}>
+                            {this.props.currSongInfo ? 
+                            this.millisToMinutesAndSeconds(this.props.currSongInfo.duration_ms) : '0:00'}
+                        </Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                         <Icon
@@ -353,7 +415,9 @@ const mapStateToProps = state => {
         showDelHub: state.hubManage.showDeleteHub,
         playbackDevice: state.hubManage.playbackDevice,
         availableDevices: state.hubManage.availableDevices,
-        playState: state.hubManage.playState
+        playState: state.hubManage.playState,
+        songProgress: state.hubManage.songProgress,
+        timeSpacing: state.hubManage.timeSpacing
     };
 };
 
@@ -362,4 +426,6 @@ export default connect(mapStateToProps, {
     showDeleteHub,
     setPlaybackDevice,
     setAvailableDevices,
-    editPlayState })(ManageHub);
+    editPlayState,
+    editSongProgress,
+    setTimeSpacing })(ManageHub);

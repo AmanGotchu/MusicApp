@@ -4,7 +4,9 @@ import {
     DELETE_HUB,
     SET_PLAYBACK_DEVICE,
     SET_AVAILABLE_DEVICES,
-    EDIT_PLAY_STATE
+    SET_TIME_SPACING,
+    EDIT_PLAY_STATE,
+    EDIT_SONG_PROGRESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -13,11 +15,17 @@ const INITIAL_STATE = {
     currentSongInfo: undefined,
     playbackDevice: undefined,
     availableDevices: undefined,
-    playState: ''
+    playState: '',
+    songProgress: 0,
+    timeSpacing: 0
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case SET_TIME_SPACING:
+            return { ...state, timeSpacing: action.payload };
+        case EDIT_SONG_PROGRESS:
+            return { ...state, songProgress: action.payload };
         case EDIT_PLAY_STATE:
             return { ...state, playState: action.payload };
         case SET_AVAILABLE_DEVICES:
