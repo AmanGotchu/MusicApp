@@ -7,6 +7,7 @@ import TimerMixin from 'react-timer-mixin';
 import querystring from 'querystring';
 import { setCurrentSong, showDeleteHub, setPlaybackDevice, setAvailableDevices, setTimeSpacing, editPlayState, editSongProgress } from './actions';
 import { DeleteOverlay } from './common/DeleteOverlay';
+import ProgressBar from './common/ProgressBar';
 
 class ManageHub extends Component {
     componentWillMount() {
@@ -166,7 +167,6 @@ class ManageHub extends Component {
         if (this.props.currSongInfo.duration_ms <= this.props.songProgress) {
             this.getNextSong();
         }
-        console.log(this.millisToMinutesAndSeconds(this.props.songProgress));
     }
 
     millisToMinutesAndSeconds(millis) {
@@ -339,6 +339,21 @@ class ManageHub extends Component {
         );
     }
 
+    renderProgressBar() {
+        let progress = 0;
+        if (this.props.currSongInfo) {
+            progress = this.props.songProgress / this.props.currSongInfo.duration_ms;
+        }
+        return (
+            <ProgressBar
+                fillStyle={{}}
+                backgroundStyle={{ backgroundColor: '#cccccc', borderRadius: 2 }}
+                style={{ marginTop: 10, width: 300 }}
+                progress={progress}
+            />
+        );
+    }
+
     render() {
         const showDeleteOverlay = 
         (<DeleteOverlay 
@@ -366,11 +381,19 @@ class ManageHub extends Component {
                         {this.renderAlbumCover()}
                         {this.renderArtistName()}
                         {this.renderSongName()}
-                        <Text style={{ color: 'white' }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
-                        <Text style={{ color: 'white' }}>
-                            {this.props.currSongInfo ? 
-                            this.millisToMinutesAndSeconds(this.props.currSongInfo.duration_ms) : '0:00'}
-                        </Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ color: 'white' }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
+                            <ProgressBar
+                                fillStyle={{}}
+                                backgroundStyle={{ backgroundColor: '#cccccc', borderRadius: 2 }}
+                                style={{ marginTop: 10, width: 300 }}
+                                progress={this.renderProgressBar()}
+                            />
+                            <Text style={{ color: 'white' }}>
+                                {this.props.currSongInfo ? 
+                                this.millisToMinutesAndSeconds(this.props.currSongInfo.duration_ms) : '0:00'}
+                            </Text>
+                        </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                         <Icon
