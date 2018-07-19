@@ -5,9 +5,15 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import TimerMixin from 'react-timer-mixin';
 import querystring from 'querystring';
-import { setCurrentSong, showDeleteHub, setPlaybackDevice, setAvailableDevices, setTimeSpacing, editPlayState, editSongProgress } from './actions';
 import { DeleteOverlay } from './common/DeleteOverlay';
 import ProgressBar from './common/ProgressBar';
+import { setCurrentSong, 
+    showDeleteHub, 
+    setPlaybackDevice, 
+    setAvailableDevices, 
+    setTimeSpacing, 
+    editPlayState, 
+    editSongProgress } from './actions';  
 
 class ManageHub extends Component {
     componentWillMount() {
@@ -100,6 +106,21 @@ class ManageHub extends Component {
             songInfo => this.props.setCurrentSong(songInfo)
         )).then(() => this.playSong())
         .catch(err => console.log(err));
+    }
+
+    getProgress() {
+        let progress = 0;
+        if (this.props.currSongInfo) {
+            progress = this.props.songProgress / this.props.currSongInfo.duration_ms;
+        }
+        return progress;
+    }
+
+    getPlaybackName() {
+        if (this.props.playbackDevice) {
+            return this.props.playbackDevice.name;
+        }
+        return undefined;
     }
 
     playSong() {
@@ -235,7 +256,7 @@ class ManageHub extends Component {
                             title={item.name}
                             onPress={() => this.chooseDevice(i)}
                             underlayColor='black'
-                            titleStyle={{ color: 'black' }}
+                            titleStyle={item.name === this.getPlaybackName() ? { color: 'green' } : { color: 'black' }}
                         />
                     ))
                 }
@@ -305,7 +326,9 @@ class ManageHub extends Component {
         }
 
         return (
-            <Text> Filler </Text>
+            <View
+                style={{ height: 200, width: 200, alignSelf: 'center', backgroundColor: 'grey' }}
+            />
         );
     }
 
@@ -339,21 +362,6 @@ class ManageHub extends Component {
         );
     }
 
-    renderProgressBar() {
-        let progress = 0;
-        if (this.props.currSongInfo) {
-            progress = this.props.songProgress / this.props.currSongInfo.duration_ms;
-        }
-        return (
-            <ProgressBar
-                fillStyle={{}}
-                backgroundStyle={{ backgroundColor: '#cccccc', borderRadius: 2 }}
-                style={{ marginTop: 10, width: 300 }}
-                progress={progress}
-            />
-        );
-    }
-
     render() {
         const showDeleteOverlay = 
         (<DeleteOverlay 
@@ -381,15 +389,15 @@ class ManageHub extends Component {
                         {this.renderAlbumCover()}
                         {this.renderArtistName()}
                         {this.renderSongName()}
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ color: 'white' }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <Text style={{ color: 'white', margin: 10 }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
                             <ProgressBar
                                 fillStyle={{}}
                                 backgroundStyle={{ backgroundColor: '#cccccc', borderRadius: 2 }}
-                                style={{ marginTop: 10, width: 300 }}
-                                progress={this.renderProgressBar()}
+                                style={{ marginTop: 17, width: 250 }}
+                                progress={this.getProgress()}
                             />
-                            <Text style={{ color: 'white' }}>
+                            <Text style={{ color: 'white', margin: 10 }}>
                                 {this.props.currSongInfo ? 
                                 this.millisToMinutesAndSeconds(this.props.currSongInfo.duration_ms) : '0:00'}
                             </Text>
@@ -412,6 +420,12 @@ class ManageHub extends Component {
                                 underlayColor='rgba(0, 0, 0, .0)'
                         />
                     </View>
+                    <TouchableOpacity
+                        style={{ alignSelf: 'center' }}
+                        onPress={() => this.setPlayback()}
+                    >
+                        <Text style={{ color: 'white' }}> Available Devices </Text>
+                    </TouchableOpacity>
                 </View>
                 {this.props.showDelHub ? showDeleteOverlay : null}
                 {this.props.availableDevices ? this.chooseAvailableDevices() : null }

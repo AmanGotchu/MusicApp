@@ -31,7 +31,7 @@ class ProgressBar extends Component {
     }
 
   componentDidUpdate(prevProps) {
-    if (this.props.progress.props.progress >= 0 && this.props.progress.props.progress !== prevProps.progress.props.progress) {
+    if (this.props.progress >= 0 && this.props.progress !== prevProps.progress) {
       this.update();
     }
   }
@@ -40,7 +40,7 @@ class ProgressBar extends Component {
     Animated.timing(this.state.progress, {
       easing: this.props.easing,
       duration: this.props.easingDuration,
-      toValue: this.props.progress.props.progress
+      toValue: this.props.progress
     }).start();
   }  
   
