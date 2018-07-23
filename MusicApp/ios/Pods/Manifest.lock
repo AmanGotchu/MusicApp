@@ -27,10 +27,6 @@ PODS:
   - GoogleMaps/Base (2.5.0)
   - GoogleMaps/Maps (2.5.0):
     - GoogleMaps/Base
-  - lottie-ios (2.5.0)
-  - lottie-react-native (2.3.2):
-    - lottie-ios
-    - React
   - React (0.55.4):
     - React/Core (= 0.55.4)
   - react-native-google-maps (0.21.0):
@@ -92,8 +88,6 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
   - GoogleMaps
-  - lottie-ios (from `../node_modules/lottie-ios`)
-  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
@@ -124,10 +118,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  lottie-ios:
-    :path: "../node_modules/lottie-ios"
-  lottie-react-native:
-    :path: "../node_modules/lottie-react-native"
   React:
     :path: "../node_modules/react-native"
   react-native-google-maps:
@@ -144,13 +134,11 @@ SPEC CHECKSUMS:
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
-  lottie-ios: 9f24be3ecb13412223b6ac70d97437742b0e3de1
-  lottie-react-native: db4bd75685428c4ad0ec2f913145abff3d38b640
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   react-native-google-maps: 2cfe3b01f8422c7dae51d8764139fd70f888cfce
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: cb40d26a61f74b475a804c07b1dd5008d1cadc4f
+PODFILE CHECKSUM: 26d2faf32f7ff227c29cfd0a8e9af137b4081d01
 
 COCOAPODS: 1.5.3

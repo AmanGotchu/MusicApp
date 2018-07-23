@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Text, Linking, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Bubbles } from 'react-native-loader';
 import querystring from 'querystring';
 import firebase from 'firebase';
+import { 
+  Color1,
+  Color2,
+  Color3,
+  Color4,
+  Color5
+} from './common/Colors';
 
 const S_CLIENT_ID = '5a7e235500fe40509dee5c659b63f316';
 const REDIRECT_URI = 'soundhub://callback';
@@ -15,7 +23,6 @@ const extension = querystring.stringify({
 const url = `https://accounts.spotify.com/authorize/?${extension}`;
 
 class SpotifyLogin extends Component {
-  state = { refreshToken: '', accessToken: '' }
   componentWillMount() {
     const id = firebase.auth().currentUser.uid;
     firebase.database().ref(`/users/${id}/accountInfo/tokens`).once('value')
@@ -31,29 +38,12 @@ class SpotifyLogin extends Component {
     Linking.removeEventListener('url', this.handleOpenURL.bind(this));
   }
 
-  /*setAccess(accessToken) {
-    console.log(accessToken || 'whoops');
-    this.setState({ accessToken });
-    Actions.Logged_In();
-  }*/
-
   configToken(snapshot) {
     if (snapshot.val().RefreshToken === undefined) {
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
       Linking.addEventListener('url', this.handleOpenURL.bind(this));
     } else {
       Actions.Logged_In();
-      /*fetch('http://127.0.0.1:5000/auth/refreshToken', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: querystring.stringify({
-          refresh_token: snapshot.val().RefreshToken
-        })
-      }).then((response) => response.json())
-      .then((Jresponse) => this.setAccess(Jresponse.access_token));
-      */
     }
   }
 
@@ -81,20 +71,43 @@ class SpotifyLogin extends Component {
         firebase.database().ref(`/users/${id}/accountInfo/tokens`)
         .set({ RefreshToken: Jresponse.refresh_token });
         Actions.Logged_In();
-        /*this.setAccess(Jresponse.access_token);*/
       });
     }
   }
 
   render() {
     return (
-      <View style={{ flex: 1, alignContent: 'center' }}>
-        <Text>
-          Your Access Token is: {this.state.accessToken}
-        </Text >
+      <View style={styles.backgroundStyle}>
+        <View style={styles.bubbleStyle}>
+          <Bubbles
+            size={30}
+            color={Color4}
+          />
+        </View>
+          <Text style={styles.textStyle}>
+            Connecting With Spotify
+          </Text>
       </View>
     );
   }
 }
+
+const styles = {
+  backgroundStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: Color3,
+  },
+  bubbleStyle: {
+    alignSelf: 'center'
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: '900',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 50
+  }
+};
 
 export default SpotifyLogin;

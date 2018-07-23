@@ -24,9 +24,6 @@ target 'MusicApp' do
     'RCTGeolocation',
 
   ]
-  
-  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   # React Native third party dependencies podspecs
   pod 'DoubleConversion', :podspec => "#{rn_path}/third-party-podspecs/DoubleConversion.podspec"
