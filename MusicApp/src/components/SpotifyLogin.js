@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Linking, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Bubbles } from 'react-native-loader';
+import { Bars } from 'react-native-loader';
 import querystring from 'querystring';
 import firebase from 'firebase';
 import { 
@@ -24,7 +24,7 @@ const url = `https://accounts.spotify.com/authorize/?${extension}`;
 
 class SpotifyLogin extends Component {
   componentWillMount() {
-    const id = firebase.auth().currentUser.uid;
+    const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
     firebase.database().ref(`/users/${id}/accountInfo/tokens`).once('value')
     .then((snapshot) => this.configToken(snapshot))
     .catch(() => {
@@ -43,12 +43,12 @@ class SpotifyLogin extends Component {
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
       Linking.addEventListener('url', this.handleOpenURL.bind(this));
     } else {
-      Actions.Logged_In();
+      //Actions.Logged_In();
     }
   }
 
   handleOpenURL(event) {
-    const id = firebase.auth().currentUser.uid;
+    const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
 
     if (event.url.includes('error')) {
       console.error('Denied Spotify Authentication');
@@ -70,7 +70,7 @@ class SpotifyLogin extends Component {
       .then((Jresponse) => {
         firebase.database().ref(`/users/${id}/accountInfo/tokens`)
         .set({ RefreshToken: Jresponse.refresh_token });
-        Actions.Logged_In();
+        //Actions.Logged_In();
       });
     }
   }
@@ -78,10 +78,10 @@ class SpotifyLogin extends Component {
   render() {
     return (
       <View style={styles.backgroundStyle}>
-        <View style={styles.bubbleStyle}>
-          <Bubbles
+        <View style={styles.barStyle}>
+          <Bars
             size={30}
-            color={Color4}
+            color={Color3}
           />
         </View>
           <Text style={styles.textStyle}>
@@ -96,17 +96,17 @@ const styles = {
   backgroundStyle: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: Color3,
+    backgroundColor: Color2,
   },
-  bubbleStyle: {
+  barStyle: {
     alignSelf: 'center'
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: '900',
     alignSelf: 'center',
-    position: 'absolute',
-    bottom: 50
+    paddingTop: 15,
+    color: Color3
   }
 };
 

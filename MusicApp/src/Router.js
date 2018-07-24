@@ -30,7 +30,7 @@ const RouterComponent = () => {
 
       <Scene key="Register" component={Registration} title="Registration" />
 
-      <Scene key="Logged_In" initial>
+      <Scene key="Logged_In">
         <Scene key="Home" component={Home} title="HomePage" hideNavBar />
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
         <Scene key="CreateHub" component={CreateHub} title="HubCreation" hideNavBar />
@@ -38,7 +38,7 @@ const RouterComponent = () => {
         <Scene key="ManageHub" component={ManageHub} title="HubManagement" hideNavBar />
       </Scene>
 
-      <Scene key="Spotify" title="Spotify Login" hideNavBar>
+      <Scene key="Spotify" title="Spotify Login" hideNavBar initial>
         <Scene key="SpotifyLogin" component={SpotifyLogin} />
       </Scene>
 
