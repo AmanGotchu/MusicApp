@@ -23,3 +23,4 @@ export const SET_AVAILABLE_DEVICES = 'set_available_devices';
 export const SET_TIME_SPACING = 'set_time_spacing';
 export const EDIT_PLAY_STATE = 'edit_play_state';
 export const EDIT_SONG_PROGRESS = 'edit_song_progress';
+export const SET_USER_COUNT = 'set_user_count';

@@ -6,7 +6,8 @@ import {
     SET_AVAILABLE_DEVICES,
     SET_TIME_SPACING,
     EDIT_PLAY_STATE,
-    EDIT_SONG_PROGRESS
+    EDIT_SONG_PROGRESS,
+    SET_USER_COUNT
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,11 +18,14 @@ const INITIAL_STATE = {
     availableDevices: undefined,
     playState: '',
     songProgress: 0,
-    timeSpacing: 0
+    timeSpacing: 0,
+    userCount: undefined
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case SET_USER_COUNT: 
+            return { ...state, userCount: action.payload };
         case SET_TIME_SPACING:
             return { ...state, timeSpacing: action.payload };
         case EDIT_SONG_PROGRESS:

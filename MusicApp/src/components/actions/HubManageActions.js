@@ -6,7 +6,8 @@ import {
     SET_AVAILABLE_DEVICES,
     SET_TIME_SPACING,
     EDIT_PLAY_STATE,
-    EDIT_SONG_PROGRESS
+    EDIT_SONG_PROGRESS,
+    SET_USER_COUNT
 } from './types';
 
 export const setHubId = (id) => {
@@ -62,5 +63,12 @@ export const setTimeSpacing = milliseconds => {
     return {
         type: SET_TIME_SPACING,
         payload: milliseconds
+    };
+};
+
+export const setUserCount = count => {
+    return {
+        type: SET_USER_COUNT,
+        payload: count
     };
 };

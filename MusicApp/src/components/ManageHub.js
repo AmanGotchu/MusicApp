@@ -7,13 +7,21 @@ import TimerMixin from 'react-timer-mixin';
 import querystring from 'querystring';
 import { DeleteOverlay } from './common/DeleteOverlay';
 import ProgressBar from './common/ProgressBar';
+import {
+    Color1,
+    Color2,
+    Color3
+} from './common/Colors';
 import { setCurrentSong, 
     showDeleteHub, 
     setPlaybackDevice, 
     setAvailableDevices, 
     setTimeSpacing, 
     editPlayState, 
-    editSongProgress } from './actions';  
+    editSongProgress,
+    setUserCount } from './actions';  
+
+const defaultAlbumCover = require('../Images/defaultAlbumCover.jpg');
 
 class ManageHub extends Component {
     componentWillMount() {
@@ -41,7 +49,7 @@ class ManageHub extends Component {
                 })
             }).then(response => response.json().then(
                 songInfo => this.props.setCurrentSong(songInfo)))
-            .catch(() => console.log('no Users'));//no users
+            .catch(() => this.props.setUserCount(0));//no users
         });
         if (!this.props.playbackDevice) {
             this.setPlayback();
@@ -243,6 +251,14 @@ class ManageHub extends Component {
         this.props.setAvailableDevices(undefined);
     }
 
+    noUsers() {
+        return (
+            <View style={styles.noUserContainerStyle}>
+                <Text style={styles.noUserTextStyle}> No Users </Text>
+            </View>
+        );
+    }
+
     chooseAvailableDevices() {
         return (
             <View style={styles.availDeviceOverlay}>
@@ -256,7 +272,7 @@ class ManageHub extends Component {
                             title={item.name}
                             onPress={() => this.chooseDevice(i)}
                             underlayColor='black'
-                            titleStyle={item.name === this.getPlaybackName() ? { color: 'green' } : { color: 'black' }}
+                            titleStyle={item.name === this.getPlaybackName() ? { color: Color3 } : { color: 'black' }}
                         />
                     ))
                 }
@@ -284,8 +300,9 @@ class ManageHub extends Component {
                 name='controller-play'
                 type='entypo'
                 onPress={() => this.playSong()}
-                color='white'
+                color={Color1}
                 underlayColor='rgba(0, 0, 0, .0)'
+                size={60}
             />
         );
     }
@@ -296,8 +313,9 @@ class ManageHub extends Component {
                 name='pause'
                 type='foundation'
                 onPress={() => this.pauseSong()}
-                color='white'
+                color={Color1}
                 underlayColor='rgba(0, 0, 0, .0)'
+                size={50}
             />
         );
     }
@@ -320,14 +338,15 @@ class ManageHub extends Component {
             return (
                 <Image
                     source={{ url: this.props.currSongInfo.album.images[0].url }}
-                    style={{ height: 200, width: 200, alignSelf: 'center' }}
+                    style={{ height: 300, width: 300, alignSelf: 'center' }}
                 />
             );
         }
 
         return (
-            <View
-                style={{ height: 200, width: 200, alignSelf: 'center', backgroundColor: 'grey' }}
+            <Image
+                source={defaultAlbumCover}
+                style={{ height: 300, width: 300, alignSelf: 'center' }}
             />
         );
     }
@@ -336,14 +355,18 @@ class ManageHub extends Component {
         if (this.props.currSongInfo) {
             return (
                 <Text
-                    style={{ alignSelf: 'center', color: 'white' }}
+                    style={styles.artistNameStyle}
                 >
                     {this.props.currSongInfo.artists[0].name}
                 </Text>
             );
         }
         return (
-            <Text> No Name Available </Text>
+            <Text
+                style={styles.artistNameStyle}
+            > 
+                Artist
+            </Text>
         );
     }
 
@@ -351,14 +374,18 @@ class ManageHub extends Component {
         if (this.props.currSongInfo) {
             return (
                 <Text
-                    style={{ alignSelf: 'center', color: 'white' }}
+                    style={styles.songNameStyle}
                 >
                     {this.props.currSongInfo.name}
                 </Text>
             );
         }
         return (
-            <Text> No Name Available </Text>
+            <Text
+                style={styles.songNameStyle}
+            > 
+                Song
+            </Text>
         );
     }
 
@@ -384,51 +411,59 @@ class ManageHub extends Component {
                     rightComponent={this.renderDelete()}
                     backgroundColor='blue'
                 />
-                <View style={{ backgroundColor: 'black', flex: 1, justifyContent: 'center' }} >
+                <View style={{ backgroundColor: 'black', flex: 1, justifyContent: 'center' }}>
+                    <View style={styles.userCountContainerStyle}>
+                        <Text style={styles.userCountStyle}> User Count: 0 </Text>
+                    </View>
                     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         {this.renderAlbumCover()}
                         {this.renderArtistName()}
                         {this.renderSongName()}
                         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                            <Text style={{ color: 'white', margin: 10 }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
+                            <Text style={{ color: Color1, margin: 10 }}>{this.millisToMinutesAndSeconds(this.props.songProgress)}</Text>
                             <ProgressBar
                                 fillStyle={{}}
                                 backgroundStyle={{ backgroundColor: '#cccccc', borderRadius: 2 }}
                                 style={{ marginTop: 17, width: 250 }}
                                 progress={this.getProgress()}
                             />
-                            <Text style={{ color: 'white', margin: 10 }}>
+                            <Text style={{ color: Color1, margin: 10 }}>
                                 {this.props.currSongInfo ? 
                                 this.millisToMinutesAndSeconds(this.props.currSongInfo.duration_ms) : '0:00'}
                             </Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                    <View style={styles.navigationContainerStyle}>
                         <Icon
                             name='controller-jump-to-start'
+                            containerStyle={{ padding: 10 }}
                             onPress={() => this.getPreviousSong()}
                             type='entypo'
-                            color='white'
+                            color={Color1}
                             underlayColor='rgba(0, 0, 0, .0)'
+                            size={25}
                         />
                         {this.props.playState ? this.renderPause() : this.renderPlay()}
                         <Icon
                                 name='controller-next'
+                                containerStyle={{ padding: 10 }}
                                 onPress={() => this.getNextSong()}
                                 type='entypo'
-                                color='white'
+                                color={Color1}
                                 underlayColor='rgba(0, 0, 0, .0)'
+                                size={25}
                         />
                     </View>
                     <TouchableOpacity
-                        style={{ alignSelf: 'center' }}
+                        style={styles.availDevicesButtonStyle}
                         onPress={() => this.setPlayback()}
                     >
-                        <Text style={{ color: 'white' }}> Available Devices </Text>
+                        <Text style={styles.avalDevicesTextStyle}> Available Devices </Text>
                     </TouchableOpacity>
                 </View>
                 {this.props.showDelHub ? showDeleteOverlay : null}
                 {this.props.availableDevices ? this.chooseAvailableDevices() : null }
+                {this.props.userCount === 0 ? this.noUsers() : null}
             </View>
         );
     }
@@ -442,6 +477,58 @@ const styles = {
         left: 20,
         right: 20,
         backgroundColor: '#C0C0C0'
+    },
+    artistNameStyle: {
+        alignSelf: 'center', 
+        fontWeight: '800',
+        fontSize: 15,
+        color: Color1,
+        padding: 5
+    },
+    songNameStyle: {
+        alignSelf: 'center', 
+        fontSize: 12,
+        color: Color1    
+    },
+    avalDevicesTextStyle: {
+        color: Color1,
+        fontSize: 12
+    },
+    availDevicesButtonStyle: {
+        alignSelf: 'center',
+        position: 'absolute',
+        bottom: 20
+    },
+    navigationContainerStyle: {
+        flexDirection: 'row', 
+        justifyContent: 'center',
+        alignSelf: 'stretch',
+    },
+    userCountStyle: {
+        color: Color1,
+        fontSize: 15,
+        fontWeight: 'bold',
+        alignSelf: 'center'
+    },
+    userCountContainerStyle: {
+        alignSelf: 'center',
+        position: 'absolute',
+        top: 20
+    },
+    noUserContainerStyle: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, .9)',
+        justifyContent: 'center'
+    },
+    noUserTextStyle: {
+        alignSelf: 'center',
+        fontSize: 30,
+        fontWeight: '900',
+        color: Color1
     }
 };
 
@@ -454,7 +541,8 @@ const mapStateToProps = state => {
         availableDevices: state.hubManage.availableDevices,
         playState: state.hubManage.playState,
         songProgress: state.hubManage.songProgress,
-        timeSpacing: state.hubManage.timeSpacing
+        timeSpacing: state.hubManage.timeSpacing,
+        userCount: state.hubManage.userCount
     };
 };
 
@@ -465,4 +553,5 @@ export default connect(mapStateToProps, {
     setAvailableDevices,
     editPlayState,
     editSongProgress,
-    setTimeSpacing })(ManageHub);
+    setTimeSpacing,
+    setUserCount })(ManageHub);
