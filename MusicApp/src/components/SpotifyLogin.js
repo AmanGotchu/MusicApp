@@ -106,7 +106,7 @@ const styles = {
     fontWeight: '900',
     alignSelf: 'center',
     paddingTop: 15,
-    color: Color3
+    color: Color1
   }
 };
 
