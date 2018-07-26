@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 import querystring from 'querystring';
 import firebase from 'firebase';
 import { setHubId } from './actions';
-
+import ModalNavigator from './ModalNavigator';
 class CreateHub extends Component {
+
+    state = { isChildOpen: false }
 
     componentWillMount() {
         const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
@@ -75,6 +77,7 @@ class CreateHub extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <ModalNavigator isOpen={this.state.isChildOpen} onSomeChildPress={() => this.setState({ isChildOpen: !this.state.isChildOpen })} />
             </View>
         );
     }

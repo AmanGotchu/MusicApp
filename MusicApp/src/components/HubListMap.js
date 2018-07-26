@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import firebase from 'firebase';
 import querystring from 'querystring';
-import { Card, Button } from 'react-native-elements';
+import ModalNavigator from './ModalNavigator';
+import { Card, Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Dimensions, View, Text } from 'react-native';
+import Modal from 'react-native-modal';
 import MapView, { Marker } from 'react-native-maps';
 import { overlayNameChange, overlaySongChange, overlayNumUsersChange, joinMapHub } from './actions';
-
 
 class HubListMap extends Component {
 
@@ -22,7 +23,8 @@ state = {
 
     ],
     hoverHubID: null,
-    joinedHubID: null
+    joinedHubID: null,
+    isChildOpen: false
   };
 
 componentWillMount() {
@@ -68,42 +70,54 @@ render() {
 <View>
 
 
-<MapView
-    ref={(el) => (this.map = el)}
-    initialRegion={this.state.viewRegion}
-    style={styles.map}
->
+  <MapView
+      ref={(el) => (this.map = el)}
+      initialRegion={this.state.viewRegion}
+      style={styles.map}
+  >
 
 
-{this.state.markers.map((marker, index) => (
-<Marker
-  key={index}
-  coordinate={marker.latlng}
-  onPress={() => this.onMarkerClick(marker)}
-/>
-))}
-
-</MapView>
-
-<Card
-  containerStyle={styles.container}
-  title="Hub Info"
-
->
-  <Text>Name: Fortnite Friday</Text>
-  <Text>Song: I play Pokemon Go!</Text>
-  <Text>Users: 100</Text>
-  <Button
-    leftIcon={{
-      name: 'login',
-      type: 'simple-line-icon'
-     }}
-    style={{ marginTop: 20 }}
-    backgroundColor='#F18F01'
-    title='Join Hub'
-    onPress={() => this.onButtonClick()}
+  {this.state.markers.map((marker, index) => (
+  <Marker
+    key={index}
+    coordinate={marker.latlng}
+    onPress={() => this.onMarkerClick(marker)}
   />
-</Card>
+  ))}
+
+  </MapView>
+
+  <Card
+    containerStyle={styles.container}
+    title="Hub Info"
+
+  >
+    <Text>Name: Fortnite Friday</Text>
+    <Text>Song: I play Pokemon Go!</Text>
+    <Text>Users: 100</Text>
+    <Button
+      leftIcon={{
+        name: 'login',
+        type: 'simple-line-icon'
+       }}
+      style={{ marginTop: 20 }}
+      backgroundColor='#F18F01'
+      title='Join Hub'
+      onPress={() => this.onButtonClick()}
+    />
+  </Card>
+
+  <Icon
+  name='chevron-with-circle-up'
+  type='entypo'
+  color='#517fa4'
+  containerStyle={styles.iconStyles}
+  onPress={() => this.setState({ isChildOpen: true })}
+  />
+
+  {console.log(this.state.isChildOpen)}
+  <ModalNavigator isOpen={this.state.isChildOpen} onSomeChildPress={() => this.setState({ isChildOpen: !this.state.isChildOpen })} />
+
 </View>
 
   );
@@ -126,6 +140,15 @@ container: {
   backgroundColor: 'white',
   flexDirection: 'column',
   alignItems: 'center'
+},
+iconStyles: {
+  position: 'absolute',
+  left: 40,
+  top: 40,
+  width: 50,
+  height: 50,
+  backgroundColor: 'white',
+  borderRadius: 25
 }
 };
 

@@ -12,18 +12,21 @@ import {
     Color2,
     Color3
 } from './common/Colors';
-import { setCurrentSong, 
-    showDeleteHub, 
-    setPlaybackDevice, 
-    setAvailableDevices, 
-    setTimeSpacing, 
-    editPlayState, 
+import { setCurrentSong,
+    showDeleteHub,
+    setPlaybackDevice,
+    setAvailableDevices,
+    setTimeSpacing,
+    editPlayState,
     editSongProgress,
-    setUserCount } from './actions';  
+    setUserCount } from './actions';
 
 const defaultAlbumCover = require('../Images/defaultAlbumCover.jpg');
 
 class ManageHub extends Component {
+
+    state = { isChildOpen: false }
+
     componentWillMount() {
         const userId = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
         fetch('https://soundhubflask.herokuapp.com/hubs/getRecentlyPlayed', {
@@ -66,14 +69,14 @@ class ManageHub extends Component {
             body: querystring.stringify({
                 userId,
             })
-        }).then(response => response.json().then(AccessToken => 
+        }).then(response => response.json().then(AccessToken =>
             fetch('https://api.spotify.com/v1/me/player/devices', {
             method: 'GET',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + AccessToken
             }
-        }).then(deviceResp => deviceResp.json().then(devices => 
+        }).then(deviceResp => deviceResp.json().then(devices =>
             this.props.setAvailableDevices(devices.devices)
         ))));
     }
@@ -149,13 +152,13 @@ class ManageHub extends Component {
         }).then(response => response.json().then(AccessToken => {
             fetch(`https://api.spotify.com/v1/me/player/play?device_id=${this.props.playbackDevice.id}`, {
                 method: 'PUT',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
                     Authorization: 'Bearer ' + AccessToken
                 },
                 body: uris
-            }); 
+            });
         })).then(() => this.props.editPlayState('playing'))
             .then(() => {
                 this.props.setTimeSpacing(new Date().getTime());
@@ -192,7 +195,7 @@ class ManageHub extends Component {
                     Authorization: 'Bearer ' + AccessToken
                 }
             }).then(response2 => response2.json().then(data => this.props.editSongProgress(data.progress_ms)));
-        })); 
+        }));
         if (this.props.currSongInfo.duration_ms <= this.props.songProgress) {
             this.getNextSong();
         }
@@ -214,10 +217,10 @@ class ManageHub extends Component {
             body: querystring.stringify({
                 userId,
             })
-        }).then(response => response.json().then(AccessToken => 
+        }).then(response => response.json().then(AccessToken =>
             fetch(`https://api.spotify.com/v1/me/player/pause?device_id=${this.props.playbackDevice.id}`, {
                 method: 'PUT',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + AccessToken
                 },
@@ -296,7 +299,7 @@ class ManageHub extends Component {
 
     renderPlay() {
         return (
-            <Icon 
+            <Icon
                 name='controller-play'
                 type='entypo'
                 onPress={() => this.playSong()}
@@ -306,10 +309,10 @@ class ManageHub extends Component {
             />
         );
     }
-    
+
     renderPause() {
         return (
-            <Icon 
+            <Icon
                 name='pause'
                 type='foundation'
                 onPress={() => this.pauseSong()}
@@ -364,7 +367,7 @@ class ManageHub extends Component {
         return (
             <Text
                 style={styles.artistNameStyle}
-            > 
+            >
                 Artist
             </Text>
         );
@@ -383,15 +386,15 @@ class ManageHub extends Component {
         return (
             <Text
                 style={styles.songNameStyle}
-            > 
+            >
                 Song
             </Text>
         );
     }
 
     render() {
-        const showDeleteOverlay = 
-        (<DeleteOverlay 
+        const showDeleteOverlay =
+        (<DeleteOverlay
             onPressYes={() => {
                 this.deleteHub();
                 this.clearOverlay();
@@ -400,7 +403,7 @@ class ManageHub extends Component {
             onPressNo={() => {
                 this.clearOverlay();
             }}
-        > 
+        >
             Are you sure you want to stop hosting this hub?
         </DeleteOverlay>);
 
@@ -428,7 +431,7 @@ class ManageHub extends Component {
                                 progress={this.getProgress()}
                             />
                             <Text style={{ color: Color1, margin: 10 }}>
-                                {this.props.currSongInfo ? 
+                                {this.props.currSongInfo ?
                                 this.millisToMinutesAndSeconds(this.props.currSongInfo.duration_ms) : '0:00'}
                             </Text>
                         </View>
@@ -479,16 +482,16 @@ const styles = {
         backgroundColor: '#C0C0C0'
     },
     artistNameStyle: {
-        alignSelf: 'center', 
+        alignSelf: 'center',
         fontWeight: '800',
         fontSize: 15,
         color: Color1,
         padding: 5
     },
     songNameStyle: {
-        alignSelf: 'center', 
+        alignSelf: 'center',
         fontSize: 12,
-        color: Color1    
+        color: Color1
     },
     avalDevicesTextStyle: {
         color: Color1,
@@ -500,7 +503,7 @@ const styles = {
         bottom: 20
     },
     navigationContainerStyle: {
-        flexDirection: 'row', 
+        flexDirection: 'row',
         justifyContent: 'center',
         alignSelf: 'stretch',
     },

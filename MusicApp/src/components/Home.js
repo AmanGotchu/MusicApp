@@ -17,7 +17,7 @@ class Home extends Component {
         // .then((snapshot) => this.props.setHubId(snapshot.val().hostingHubId));
         this.props.setHubId('-LHQdr_wLAVV9GfV_3gB');
     }
-
+    
     getHubDirection() {
         if (this.props.hubId) {
             Actions.ManageHub();
@@ -63,7 +63,7 @@ class Home extends Component {
         if (isHidden) {
             toValue = 147;
         }
-        
+
         Animated.spring(
         bounceValue,
         {
@@ -73,7 +73,7 @@ class Home extends Component {
             friction: 8,
         }
         ).start();
-        
+
         isHidden = !isHidden;
     }
 
@@ -92,13 +92,14 @@ class Home extends Component {
 
     renderDrop() {
         return (
-            <Icon 
+            <Icon
                 containerStyle={{ paddingTop: 17 }}
                 onPress={() => this.toggleSubview()}
                 name="menu"
                 color="white"
                 underlayColor='rgba(0, 0, 0, .0)'
             />
+
         );
     }
 
@@ -158,4 +159,3 @@ const styles = {
         backgroundColor: 'green',
     }
 };
-
