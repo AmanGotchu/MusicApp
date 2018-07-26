@@ -312,9 +312,9 @@ class ManageHub extends Component {
 
     renderPlay() {
         return (
-            <Icon
-                name='controller-play'
-                type='entypo'
+            <Icon 
+                name='play-circle-outline'
+                type='MaterialIcons'
                 onPress={() => this.playSong()}
                 color={Color1}
                 underlayColor='rgba(0, 0, 0, .0)'
@@ -325,9 +325,9 @@ class ManageHub extends Component {
 
     renderPause() {
         return (
-            <Icon
-                name='pause'
-                type='foundation'
+            <Icon 
+                name='pause-circle-outline'
+                type='MaterialIcons'
                 onPress={() => this.pauseSong()}
                 color={Color1}
                 underlayColor='rgba(0, 0, 0, .0)'
@@ -519,7 +519,8 @@ const styles = {
         flexDirection: 'row',
     },
     navigationContainerStyle: {
-        flexDirection: 'row',
+        paddingTop: 20,
+        flexDirection: 'row', 
         justifyContent: 'center',
         alignSelf: 'stretch',
     },

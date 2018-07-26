@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
 import querystring from 'querystring';
 import firebase from 'firebase';
 
@@ -26,7 +25,7 @@ class CreateHub extends Component {
                         lng,
                         userId
                     })
-                }).then(() => { console.log('go'); Actions.ManageHub();});
+                }).then(() => { Actions.ManageHub(); });
             }
         );
     }
