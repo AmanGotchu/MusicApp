@@ -43,7 +43,7 @@ class SpotifyLogin extends Component {
       Linking.openURL(url).catch(err => console.error('an error as occured', err));
       Linking.addEventListener('url', this.handleOpenURL.bind(this));
     } else {
-      //Actions.Logged_In();
+      Actions.Logged_In();
     }
   }
 
@@ -70,7 +70,7 @@ class SpotifyLogin extends Component {
       .then((Jresponse) => {
         firebase.database().ref(`/users/${id}/accountInfo/tokens`)
         .set({ RefreshToken: Jresponse.refresh_token });
-        //Actions.Logged_In();
+        Actions.Logged_In();
       });
     }
   }

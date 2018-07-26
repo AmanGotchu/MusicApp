@@ -12,10 +12,16 @@ let isHidden = true;
 
 class Home extends Component {
     componentWillMount() {
-        //firebase.auth().currentUser.uid;
-        // firebase.database().ref(`/users/${id}/accountInfo`).once('value')
-        // .then((snapshot) => this.props.setHubId(snapshot.val().hostingHubId));
-        this.props.setHubId('-LHQdr_wLAVV9GfV_3gB');
+        const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
+        firebase.database().ref(`/users/${id}/accountInfo`).once('value')
+        .then((snapshot) => this.props.setHubId(snapshot.val().hostingHubId));
+       // this.props.setHubId('-LHQdr_wLAVV9GfV_3gB');
+    }
+    componentDidUpdate() {
+        const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
+        firebase.database().ref(`/users/${id}/accountInfo`).once('value')
+        .then((snapshot) => this.props.setHubId(snapshot.val().hostingHubId));
+       // this.props.setHubId('-LHQdr_wLAVV9GfV_3gB');
     }
     
     getHubDirection() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { Icon, Header, List, ListItem } from 'react-native-elements';
+import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { Icon, List, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import TimerMixin from 'react-timer-mixin';
@@ -22,6 +22,7 @@ import { setCurrentSong,
     setUserCount } from './actions';
 
 const defaultAlbumCover = require('../Images/defaultAlbumCover.jpg');
+const background = require('../Images/media-player.jpg');
 
 class ManageHub extends Component {
 
@@ -52,7 +53,7 @@ class ManageHub extends Component {
                 })
             }).then(response => response.json().then(
                 songInfo => this.props.setCurrentSong(songInfo)))
-            .catch(() => this.props.setUserCount(0));//no users
+            .catch(() => this.props.setUserCount(0)); //no users
         });
         if (!this.props.playbackDevice) {
             this.setPlayback();
@@ -76,9 +77,10 @@ class ManageHub extends Component {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + AccessToken
             }
-        }).then(deviceResp => deviceResp.json().then(devices =>
-            this.props.setAvailableDevices(devices.devices)
-        ))));
+        }).then(deviceResp => deviceResp.json().then(devices => {
+            console.log(devices.devices);
+            this.props.setAvailableDevices(devices.devices);
+        }))));
     }
 
     getNextSong() {
@@ -265,18 +267,29 @@ class ManageHub extends Component {
     chooseAvailableDevices() {
         return (
             <View style={styles.availDeviceOverlay}>
-                <Text> Choose PlayBack Device </Text>
-                <List style={{ flex: 1 }}>
+                <Text style={styles.connectTextStyle}> Connect to a device </Text>
+                <List style={styles.deviceContainerStyle}>
                 {
                     this.props.availableDevices.map((item, i) => (
-                        <ListItem
-                            hideChevron
-                            key={i}
-                            title={item.name}
-                            onPress={() => this.chooseDevice(i)}
-                            underlayColor='black'
-                            titleStyle={item.name === this.getPlaybackName() ? { color: Color3 } : { color: 'black' }}
-                        />
+                        <View style={{ flexDirection: 'row', alignContent: 'center', paddingTop: 20 }} key={i}>
+                            <Icon
+                                name={item.type === 'Smartphone' ? 'mobile-phone' : 'computer'}
+                                containerStyle={{ paddingLeft: 20, paddingRight: 20, backgroundColor: Color2 }}
+                                onPress={() => this.chooseDevice(i)}
+                                type={item.type === 'Smartphone' ? 'font-awesome' : 'MaterialIcons'}
+                                color={item.name === this.getPlaybackName() ? Color3 : Color1}
+                                underlayColor='rgba(0, 0, 0, .0)'
+                                size={25}
+                            />
+                            <ListItem
+                                hideChevron
+                                title={item.name}
+                                onPress={() => this.chooseDevice(i)}
+                                underlayColor='rgba(0, 0, 0, .0)'
+                                titleStyle={item.name === this.getPlaybackName() ? { color: Color3 } : { color: Color1 }}
+                                containerStyle={styles.deviceStyle}
+                            />
+                        </View>
                     ))
                 }
                 </List>
@@ -305,7 +318,7 @@ class ManageHub extends Component {
                 onPress={() => this.playSong()}
                 color={Color1}
                 underlayColor='rgba(0, 0, 0, .0)'
-                size={60}
+                size={75}
             />
         );
     }
@@ -318,24 +331,11 @@ class ManageHub extends Component {
                 onPress={() => this.pauseSong()}
                 color={Color1}
                 underlayColor='rgba(0, 0, 0, .0)'
-                size={50}
+                size={75}
             />
         );
     }
-
-    renderDelete() {
-        return (
-            <Icon
-            containerStyle={{ paddingTop: 17 }}
-            name='x'
-            onPress={() => this.props.showDeleteHub(true)}
-            type='feather'
-            color='white'
-            underlayColor='rgba(0, 0, 0, .0)'
-            />
-        );
-    }
-
+    
     renderAlbumCover() {
         if (this.props.currSongInfo) {
             return (
@@ -408,15 +408,28 @@ class ManageHub extends Component {
         </DeleteOverlay>);
 
         return (
-            <View style={{ flex: 1, backgroundColor: 'grey' }}>
-                <Header
-                    leftComponent={this.renderBack()}
-                    rightComponent={this.renderDelete()}
-                    backgroundColor='blue'
-                />
-                <View style={{ backgroundColor: 'black', flex: 1, justifyContent: 'center' }}>
+            <ImageBackground source={background} style={{ flex: 1, backgroundColor: 'black' }}>
+                <View style={styles.headerStyling}>
+                    <Icon
+                        containerStyle={{ padding: 10, paddingLeft: 15, alignSelf: 'flex-start' }}
+                        name='ios-arrow-back'
+                        onPress={() => Actions.Home()}
+                        type='ionicon'
+                        color='white'
+                        underlayColor='rgba(0, 0, 0, .0)'
+                    />
+                    <Icon
+                        containerStyle={{ padding: 10, paddingRight: 15, alignSelf: 'flex-end' }}
+                        name='x'
+                        onPress={() => this.props.showDeleteHub(true)}
+                        type='feather'
+                        color='white'
+                        underlayColor='rgba(0, 0, 0, .0)'
+                    />
+                </View>
+                <View style={{ flex: 1 }}>
                     <View style={styles.userCountContainerStyle}>
-                        <Text style={styles.userCountStyle}> User Count: 0 </Text>
+                        <Text style={styles.userCountStyle}> {this.props.userCount} Users </Text>
                     </View>
                     <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         {this.renderAlbumCover()}
@@ -439,54 +452,56 @@ class ManageHub extends Component {
                     <View style={styles.navigationContainerStyle}>
                         <Icon
                             name='controller-jump-to-start'
-                            containerStyle={{ padding: 10 }}
+                            containerStyle={{ padding: 10, paddingRight: 20 }}
                             onPress={() => this.getPreviousSong()}
                             type='entypo'
                             color={Color1}
                             underlayColor='rgba(0, 0, 0, .0)'
-                            size={25}
+                            size={35}
                         />
                         {this.props.playState ? this.renderPause() : this.renderPlay()}
                         <Icon
                                 name='controller-next'
-                                containerStyle={{ padding: 10 }}
+                                containerStyle={{ padding: 10, paddingLeft: 20 }}
                                 onPress={() => this.getNextSong()}
                                 type='entypo'
                                 color={Color1}
                                 underlayColor='rgba(0, 0, 0, .0)'
-                                size={25}
+                                size={35}
                         />
                     </View>
                     <TouchableOpacity
                         style={styles.availDevicesButtonStyle}
                         onPress={() => this.setPlayback()}
                     >
+                        <Icon
+                            name='devices'
+                            containerStyle={{ paddingRight: 5 }}
+                            type='MaterialIcons'
+                            color={Color1}
+                            underlayColor='rgba(0, 0, 0, .0)'
+                            size={15}
+                        />
                         <Text style={styles.avalDevicesTextStyle}> Available Devices </Text>
                     </TouchableOpacity>
                 </View>
                 {this.props.showDelHub ? showDeleteOverlay : null}
                 {this.props.availableDevices ? this.chooseAvailableDevices() : null }
                 {this.props.userCount === 0 ? this.noUsers() : null}
-            </View>
+            </ImageBackground>
         );
     }
 }
 
 const styles = {
-    availDeviceOverlay: {
-        position: 'absolute',
-        top: 50,
-        bottom: 50,
-        left: 20,
-        right: 20,
-        backgroundColor: '#C0C0C0'
-    },
+
     artistNameStyle: {
         alignSelf: 'center',
         fontWeight: '800',
         fontSize: 15,
         color: Color1,
-        padding: 5
+        paddingBottom: 5,
+        paddingTop: 15
     },
     songNameStyle: {
         alignSelf: 'center',
@@ -500,7 +515,8 @@ const styles = {
     availDevicesButtonStyle: {
         alignSelf: 'center',
         position: 'absolute',
-        bottom: 20
+        bottom: 20,
+        flexDirection: 'row',
     },
     navigationContainerStyle: {
         flexDirection: 'row',
@@ -515,8 +531,7 @@ const styles = {
     },
     userCountContainerStyle: {
         alignSelf: 'center',
-        position: 'absolute',
-        top: 20
+        paddingBottom: 30
     },
     noUserContainerStyle: {
         position: 'absolute',
@@ -532,6 +547,40 @@ const styles = {
         fontSize: 30,
         fontWeight: '900',
         color: Color1
+    },
+    deviceContainerStyle: {
+        flex: 1,
+        backgroundColor: Color2,
+        borderColor: Color2
+    },
+    deviceStyle: {
+        backgroundColor: Color2,
+        flex: 1,
+        borderColor: 'rgba(0, 0, 0, .0)'
+    },
+    availDeviceOverlay: {
+        position: 'absolute',
+        top: 50,
+        bottom: 50,
+        left: 20,
+        right: 20,
+        backgroundColor: Color2,
+        borderRadius: 10
+    },
+    connectTextStyle: {
+        color: Color1,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        fontSize: 20,
+        paddingTop: 30
+    },
+    headerStyling: {
+        backgroundColor: 'rgba(0, 0, 0, .0)',
+        flexDirection: 'row',
+        height: 60,
+        paddingTop: 15,
+        position: 'relative',
+        justifyContent: 'space-between',
     }
 };
 

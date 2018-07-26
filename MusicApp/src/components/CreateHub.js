@@ -5,31 +5,17 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import querystring from 'querystring';
 import firebase from 'firebase';
-import { setHubId } from './actions';
-import ModalNavigator from './ModalNavigator';
+
 class CreateHub extends Component {
 
-    state = { isChildOpen: false }
-
-    componentWillMount() {
-        const id = 'LqqarxhRAPhVF9CQcnSRtGzhSKS2';//firebase.auth().currentUser.uid;
-        firebase.database().ref(`/users/${id}/accountInfo`).once('value')
-        .then((snapshot) => {
-            if (snapshot.val().hostingHubId) {
-                this.props.setHubId(snapshot.val().hostingHubId);
-            } else {
-                this.props.setHubId('');
-            }
-        })
-        .catch(error => console.log(error));
-    }
-
     onCreateHubButtonPress() {
+        console.log('pressed');
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const userId = firebase.auth().currentUser.uid;
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
+                console.log('userId');
                 fetch('https://soundhubflask.herokuapp.com/hubs/addHub', {
                     method: 'POST',
                     headers: {
@@ -40,7 +26,7 @@ class CreateHub extends Component {
                         lng,
                         userId
                     })
-                }).then(() => Actions.ManageHub());
+                }).then(() => { console.log('go'); Actions.ManageHub();});
             }
         );
     }
@@ -77,7 +63,6 @@ class CreateHub extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <ModalNavigator isOpen={this.state.isChildOpen} onSomeChildPress={() => this.setState({ isChildOpen: !this.state.isChildOpen })} />
             </View>
         );
     }
@@ -102,11 +87,4 @@ const styles = {
     }
 };
 
-const mapStateToProps = state => {
-    return {
-        hubId: state.hubManage.hubId,
-    };
-};
-
-export default connect(mapStateToProps, {
-    setHubId })(CreateHub);
+export default CreateHub;
