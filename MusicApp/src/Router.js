@@ -15,23 +15,15 @@ const RouterComponent = () => {
   return (
 
     <Router>
+
     <Scene key="root" hideNavBar>
-
-      {/* <Scene key="HubList">
-        <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
-      </Scene> */}
-
-
       <Scene key="appAuth" initial>
         <Scene key="appLogin" component={LoginForm} title="App Login" hideNavBar />
+        <Scene key="Register" component={Registration} title="Registration" />
       </Scene>
 
-      <Scene key="Map" component={HubListMap} title="Map" hideNavBar />
-
-      <Scene key="Register" component={Registration} title="Registration" />
-
-      <Scene key="Logged_In">
-        <Scene key="Home" component={Home} title="HomePage" hideNavBar />
+      <Scene key="Logged_In" initial>
+        <Scene key="Map" component={HubListMap} title="Map" hideNavBar initial />
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
         <Scene key="CreateHub" component={CreateHub} title="HubCreation" hideNavBar />
         <Scene key="CurrentHub" component={CurrentHub} title="ThisHub" hideNavBar />
@@ -45,7 +37,6 @@ const RouterComponent = () => {
       <Scene key="Hub" title="Hubs">
         <Scene key="HubDashboard" component={HubDashboard} />
       </Scene>
-
     </Scene>
 
     </Router>

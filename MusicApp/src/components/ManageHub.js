@@ -265,36 +265,42 @@ class ManageHub extends Component {
     }
 
     chooseAvailableDevices() {
-        return (
-            <View style={styles.availDeviceOverlay}>
-                <Text style={styles.connectTextStyle}> Connect to a device </Text>
-                <List style={styles.deviceContainerStyle}>
-                {
-                    this.props.availableDevices.map((item, i) => (
-                        <View style={{ flexDirection: 'row', alignContent: 'center', paddingTop: 20 }} key={i}>
-                            <Icon
-                                name={item.type === 'Smartphone' ? 'mobile-phone' : 'computer'}
-                                containerStyle={{ paddingLeft: 20, paddingRight: 20, backgroundColor: Color2 }}
-                                onPress={() => this.chooseDevice(i)}
-                                type={item.type === 'Smartphone' ? 'font-awesome' : 'MaterialIcons'}
-                                color={item.name === this.getPlaybackName() ? Color3 : Color1}
-                                underlayColor='rgba(0, 0, 0, .0)'
-                                size={25}
-                            />
-                            <ListItem
-                                hideChevron
-                                title={item.name}
-                                onPress={() => this.chooseDevice(i)}
-                                underlayColor='rgba(0, 0, 0, .0)'
-                                titleStyle={item.name === this.getPlaybackName() ? { color: Color3 } : { color: Color1 }}
-                                containerStyle={styles.deviceStyle}
-                            />
-                        </View>
-                    ))
-                }
-                </List>
-            </View>
-        );
+        if (this.props.userCount !== 0) {
+            return (
+                <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, .6)' }}>
+                    <View style={styles.availDeviceOverlay}>
+                        <Text style={styles.connectTextStyle}> Connect to a device </Text>
+                        <List style={styles.deviceContainerStyle}>
+                        {
+                            this.props.availableDevices.map((item, i) => (
+                                <View style={{ flexDirection: 'row', alignContent: 'center', paddingTop: 20 }} key={i}>
+                                    <Icon
+                                        name={item.type === 'Smartphone' ? 'mobile-phone' : 'computer'}
+                                        containerStyle={{ paddingLeft: 20, paddingRight: 20, backgroundColor: Color2 }}
+                                        onPress={() => this.chooseDevice(i)}
+                                        type={item.type === 'Smartphone' ? 'font-awesome' : 'MaterialIcons'}
+                                        color={item.name === this.getPlaybackName() ? Color3 : Color1}
+                                        underlayColor='rgba(0, 0, 0, .0)'
+                                        size={25}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={item.name}
+                                        onPress={() => this.chooseDevice(i)}
+                                        underlayColor='rgba(0, 0, 0, .0)'
+                                        titleStyle={item.name === this.getPlaybackName() ? { color: Color3 } : { color: Color1 }}
+                                        containerStyle={styles.deviceStyle}
+                                    />
+                                </View>
+                            ))
+                        }
+                        </List>
+                    </View>
+                </View>
+            );
+        }
+
+        return;
     }
 
     renderBack() {
@@ -302,7 +308,7 @@ class ManageHub extends Component {
             <Icon
                 containerStyle={{ paddingTop: 17 }}
                 name='ios-arrow-back'
-                onPress={() => Actions.pop()}
+                onPress={() => Actions.Map()}
                 type='ionicon'
                 color='white'
                 underlayColor='rgba(0, 0, 0, .0)'
@@ -398,7 +404,7 @@ class ManageHub extends Component {
             onPressYes={() => {
                 this.deleteHub();
                 this.clearOverlay();
-                Actions.pop();
+                Actions.Map();
             }}
             onPressNo={() => {
                 this.clearOverlay();

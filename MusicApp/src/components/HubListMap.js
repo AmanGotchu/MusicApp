@@ -111,11 +111,11 @@ render() {
   </Card>
 
   <Icon
-  name='chevron-with-circle-up'
-  type='entypo'
-  color='#517fa4'
-  containerStyle={styles.iconStyles}
-  onPress={() => this.setState({ isChildOpen: true })}
+    name='chevron-with-circle-up'
+    type='entypo'
+    color='#517fa4'
+    containerStyle={styles.iconStyles}
+    onPress={() => this.setState({ isChildOpen: true })}
   />
 
   {console.log(this.state.isChildOpen)}

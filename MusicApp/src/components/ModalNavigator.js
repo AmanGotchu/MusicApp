@@ -1,15 +1,18 @@
 import Modal from 'react-native-modal';
 import React, { Component } from 'react';
-import { View, Animated, Text } from 'react-native';
-import { Header, Icon, ListItem, List, Button } from 'react-native-elements';
+import { View, Animated } from 'react-native';
+import { Icon, ListItem, List } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
 import 'react-native-vector-icons';
 import { setHubId } from './actions';
-
-const bounceValue = new Animated.Value(-100);
-let isHidden = true;
+import {
+    Color1,
+    Color2,
+    Color3,
+    Color4,
+    Color5
+} from './common/Colors';
 
 class ModalNavigator extends Component {
 
@@ -69,39 +72,6 @@ homeChoices = [
     }
 ];
 
-toggleSubview() {
-    let toValue = 300;
-
-    if (isHidden) {
-        toValue = 147;
-    }
-
-    Animated.spring(
-    bounceValue,
-    {
-        toValue,
-        velocity: 3,
-        tension: 2,
-        friction: 8,
-    }
-    ).start();
-
-    isHidden = !isHidden;
-}
-
-
-renderDrop() {
-    return (
-        <Icon
-            containerStyle={{ paddingTop: 17 }}
-            onPress={() => this.toggleSubview()}
-            name="menu"
-            color="white"
-            underlayColor='rgba(0, 0, 0, .0)'
-        />
-    );
-}
-
 renderCog() {
     return (
         <Icon
@@ -117,45 +87,48 @@ renderCog() {
 
   render() {
     return (
-      <View>
         <Modal
-          style={{ margin: 30, backgroundColor: 'white' }}
-          animationType="fade"
+          style={{ backgroundColor: Color5, flex: 1 }}
+          animationType=""
           visible={this.props.isOpen}
+          swipeThreshold={200}
+          onSwipe={() => { this.setState({ isVisible: false }); this.props.onSomeChildPress(); }}
+          swipeDirection="left"
+          onBackdropPress={() => this.setState({ isVisible: false })}
           onRequestClose={() => {
             alert('Modal has been closed.');
           }}
         >
-
-        <Animated.View
-            style={[styles.subView,
-            { transform: [{ translateY: bounceValue }] }]}
-        >
+        <View>
+            <Icon
+                name='social-soundcloud'
+                type='simple-line-icon'
+                color={Color3}
+                containerStyle={styles.iconStyles}
+                underlayColor='rgba(0, 0, 0, .0)'
+                size={100}
+            />
+        </View>
+        <View>
             <List containerStyle={styles.ListContainer}>
                 {
                     this.homeChoices.map((item, i) => (
                         <ListItem
                             key={i}
                             title={item.title}
-                            leftIcon={{ name: item.icon, color: 'white', type: item.type }}
+                            hideChevron
+                            leftIcon={{ name: item.icon, color: Color1, type: item.type }}
                             onPress={item.PressAction}
                             underlayColor='rgba(0, 0, 0, .0)'
                             wrapperStyle={{ paddingLeft: item.iconPaddingLeft || 5 }}
-                            titleStyle={{ color: 'white', paddingLeft: item.textPaddingLeft }}
+                            titleStyle={{ color: Color1, paddingLeft: item.textPaddingLeft }}
+                            containerStyle={{ borderBottomColor: i === 3 ? 'rgba(0, 0, 0, .0)' : Color1 }}
                         />
                     ))
                 }
             </List>
-        </Animated.View>
-          <Icon
-          name='chevron-with-circle-up'
-          type='entypo'
-          color='#517fa4'
-          containerStyle={styles.iconStyles}
-          onPress={this.props.onSomeChildPress}
-          />
+        </View>
         </Modal>
-      </View>
     );
   }
 }
@@ -168,16 +141,10 @@ const mapStateToProps = state => {
 };
 
 const styles = {
-    subView: {
-        position: 'absolute',
-        top: 150,
-        left: 0,
-        right: 0,
-        backgroundColor: '#C0C0C0',
-    },
     ListContainer: {
         marginTop: 0,
-        backgroundColor: 'green',
+        backgroundColor: Color5,
+        borderColor: Color5
     }
 };
 
