@@ -27,7 +27,7 @@ const RouterComponent = () => {
         <Scene key="UserInfo" component={UserInfo} title="UserInformation" hideNavBar />
         <Scene key="CreateHub" component={CreateHub} title="HubCreation" hideNavBar />
         <Scene key="CurrentHub" component={CurrentHub} title="ThisHub" hideNavBar />
-        <Scene key="ManageHub" component={ManageHub} title="HubManagement" hideNavBar />
+        <Scene key="ManageHub" component={ManageHub} title="HubManagement" hideNavBar initial/>
       </Scene>
 
       <Scene key="Spotify" title="Spotify Login" hideNavBar>

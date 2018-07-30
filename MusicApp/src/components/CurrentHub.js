@@ -13,7 +13,7 @@ class CurrentHub extends Component {
             <Icon
                 containerStyle={{ paddingTop: 17 }}
                 name='ios-arrow-back'
-                onPress={() => Actions.Home()}
+                onPress={() => Actions.pop()}
                 type='ionicon'
                 color='white'
                 underlayColor='rgba(0, 0, 0, .0)'

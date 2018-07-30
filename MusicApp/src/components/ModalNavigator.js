@@ -62,14 +62,6 @@ homeChoices = [
         textPaddingLeft: 4,
         PressAction: () => { Actions.CurrentHub(); }
     },
-    {
-        title: 'Map',
-        icon: 'x',
-        type: 'foundation',
-        iconPaddingLeft: 9,
-        textPaddingLeft: 4,
-        PressAction: () => { Actions.Map(); }
-    }
 ];
 
 renderCog() {
@@ -88,45 +80,49 @@ renderCog() {
   render() {
     return (
         <Modal
-          style={{ backgroundColor: Color5, flex: 1 }}
-          animationType=""
-          visible={this.props.isOpen}
-          swipeThreshold={200}
+          style={styles.modalStyle}
+          animationIn="slideInLeft"
+          animationOut="slideOutLeft"
+          isVisible={this.props.isOpen}
+          swipeThreshold={50}
           onSwipe={() => { this.setState({ isVisible: false }); this.props.onSomeChildPress(); }}
           swipeDirection="left"
-          onBackdropPress={() => this.setState({ isVisible: false })}
+          onBackdropPress={() => { this.setState({ isVisible: false }); this.props.onSomeChildPress(); }}
           onRequestClose={() => {
             alert('Modal has been closed.');
           }}
         >
-        <View>
-            <Icon
-                name='social-soundcloud'
-                type='simple-line-icon'
-                color={Color3}
-                containerStyle={styles.iconStyles}
-                underlayColor='rgba(0, 0, 0, .0)'
-                size={100}
-            />
-        </View>
-        <View>
-            <List containerStyle={styles.ListContainer}>
-                {
-                    this.homeChoices.map((item, i) => (
-                        <ListItem
-                            key={i}
-                            title={item.title}
-                            hideChevron
-                            leftIcon={{ name: item.icon, color: Color1, type: item.type }}
-                            onPress={item.PressAction}
-                            underlayColor='rgba(0, 0, 0, .0)'
-                            wrapperStyle={{ paddingLeft: item.iconPaddingLeft || 5 }}
-                            titleStyle={{ color: Color1, paddingLeft: item.textPaddingLeft }}
-                            containerStyle={{ borderBottomColor: i === 3 ? 'rgba(0, 0, 0, .0)' : Color1 }}
-                        />
-                    ))
-                }
-            </List>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+            <View>
+                <Icon
+                    name='social-soundcloud'
+                    type='simple-line-icon'
+                    color={Color3}
+                    containerStyle={styles.iconStyles}
+                    underlayColor='rgba(0, 0, 0, .0)'
+                    size={100}
+                />
+            </View>
+            <View>
+                <List containerStyle={styles.ListContainer}>
+                    {
+                        this.homeChoices.map((item, i) => (
+                            <ListItem
+                                key={i}
+                                title={item.title}
+                                hideChevron
+                                leftIcon={{ name: item.icon, color: Color1, type: item.type }}
+                                onPress={() => { this.setState({ isVisible: false }); this.props.onSomeChildPress(); item.PressAction(); }}
+                                underlayColor='rgba(0, 0, 0, .0)'
+                                wrapperStyle={{ paddingLeft: item.iconPaddingLeft || 5 }}
+                                titleStyle={{ color: Color1, paddingLeft: item.textPaddingLeft }}
+                                containerStyle={{ borderBottomColor: i === 3 ? 'rgba(0, 0, 0, .0)' : Color1,
+                                borderBottomWidth: 2 }}
+                            />
+                        ))
+                    }
+                </List>
+            </View>
         </View>
         </Modal>
     );
@@ -145,6 +141,10 @@ const styles = {
         marginTop: 0,
         backgroundColor: Color5,
         borderColor: Color5
+    },
+    modalStyle: {
+        backgroundColor: Color5,
+        marginRight: 150
     }
 };
 

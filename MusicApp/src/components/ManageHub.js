@@ -419,7 +419,7 @@ class ManageHub extends Component {
                     <Icon
                         containerStyle={{ padding: 10, paddingLeft: 15, alignSelf: 'flex-start' }}
                         name='ios-arrow-back'
-                        onPress={() => Actions.Home()}
+                        onPress={() => Actions.Map()}
                         type='ionicon'
                         color='white'
                         underlayColor='rgba(0, 0, 0, .0)'
@@ -542,7 +542,7 @@ const styles = {
     },
     noUserContainerStyle: {
         position: 'absolute',
-        top: 0,
+        top: 50,
         bottom: 0,
         left: 0,
         right: 0,
