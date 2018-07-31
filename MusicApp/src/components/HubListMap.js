@@ -7,7 +7,7 @@ import { Card, Button, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Dimensions, View, Text } from 'react-native';
 import Modal from 'react-native-modal';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { overlayNameChange, overlaySongChange, overlayNumUsersChange, joinMapHub } from './actions';
 import { generatedMapStyle } from '../MapStyle/CustomMapStyle';
 
@@ -41,7 +41,7 @@ onMarkerClick(marker) {
   this.props.overlaySongChange(marker.currSong);
 
   this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, hoverHubID: marker.hubID });
-  this.map.animateToRegion({ latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, 100);
+  this.map.animateToRegion({ latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, 100);
   console.log('You clicked on this hub ' + marker.hubID);
  }
 
@@ -85,30 +85,26 @@ render() {
     key={index}
     coordinate={marker.latlng}
     onPress={() => this.onMarkerClick(marker)}
-  />
+
+  >
+    <Callout style={{ position: 'absolute', alignItems: 'center', justifyContent: 'center', backgroundColor: '#00000000' }}>
+
+        <Button
+          leftIcon={{
+            name: 'login',
+            type: 'simple-line-icon'
+           }}
+          style={{ marginTop: 20 }}
+          backgroundColor='#F18F01'
+          title='Join Hub'
+          onPress={() => this.onButtonClick()}
+        />
+
+    </Callout>
+  </Marker>
   ))}
 
   </MapView>
-
-  <Card
-    containerStyle={styles.container}
-    title="Hub Info"
-
-  >
-    <Text>Name: Fortnite Friday</Text>
-    <Text>Song: I play Pokemon Go!</Text>
-    <Text>Users: 100</Text>
-    <Button
-      leftIcon={{
-        name: 'login',
-        type: 'simple-line-icon'
-       }}
-      style={{ marginTop: 20 }}
-      backgroundColor='#F18F01'
-      title='Join Hub'
-      onPress={() => this.onButtonClick()}
-    />
-  </Card>
 
   <Icon
     name='chevron-with-circle-up'
