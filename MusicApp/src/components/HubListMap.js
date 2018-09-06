@@ -28,6 +28,20 @@ state = {
     isChildOpen: false
   };
 
+componentDidMount() {
+  this.timer = setInterval(() => this.getItems(), 5000);
+};
+
+componentWillUnmount(){
+  this.timer = null;
+}
+
+getItems() {
+  axios.get('https://soundhubflask.herokuapp.com/hubs/getHubs/')
+    .then(result => this.setState({ markers: JSON.parse(result.request.response) }));
+  console.log(this.state.markers);
+}
+
 componentWillMount() {
   axios.get('https://soundhubflask.herokuapp.com/hubs/getHubs/')
    .then(result =>
@@ -39,13 +53,13 @@ onMarkerClick(marker) {
   this.props.overlayNameChange(marker.hubName);
   this.props.overlayNumUsersChange(marker.numUsers);
   this.props.overlaySongChange(marker.currSong);
-
   this.setState({ viewRegion: { latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, hoverHubID: marker.hubID });
   this.map.animateToRegion({ latitudeDelta: 0.0922, longitudeDelta: 0.0421, latitude: marker.latlng.latitude, longitude: marker.latlng.longitude }, 100);
   console.log('You clicked on this hub ' + marker.hubID);
  }
 
  onButtonClick() {
+   console.log(this.state.shit);
    if (this.state.hoverHubID === null) {
      console.log('Select a Hub!');
    } else if (this.props.joinedHubID == null) {
@@ -66,6 +80,7 @@ onMarkerClick(marker) {
  }
 
 render() {
+  console.log(this.state.shit);
   return (
 
 <View>
