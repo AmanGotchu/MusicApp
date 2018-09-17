@@ -85,7 +85,7 @@ class Registration extends Component {
                 onChangeText={this.onPasswordChanged.bind(this)}
                 value={this.props.password}
                 placeholderTextColor='#C0C0C0'
-                colro='#C0C0C0'
+                color='#C0C0C0'
                 />
               </View>
             </View>

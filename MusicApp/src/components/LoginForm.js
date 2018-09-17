@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, TextInput, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -8,6 +8,7 @@ import { emailChanged, passwordChanged, loginUser } from './actions';
 
 const BackgroundIMG = require('../Images/background-2.jpg');
 const ButtonBack = require('../Images/Green-Gradient.png');
+const Logo = require('/Users/ap/Desktop/Projects/ReactTemp/Music/MusicApp/src/Images/logo_transparent.png');
 
 class LoginForm extends Component {
 
@@ -37,8 +38,8 @@ class LoginForm extends Component {
     return (
       <ImageBackground source={BackgroundIMG} style={styles.BackgroundStyle}>
         <Card style={styles.CardStyle}>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 50 }}>
-            <Text style={styles.LoginHeader}> Music App </Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 20 }}>
+            <Image source={Logo} style={styles.LogoStyle} />
           </View>
 
           <View style={styles.InputContainer}>
@@ -105,12 +106,6 @@ class LoginForm extends Component {
                   Register
               </Text>
             </TouchableOpacity>
-            <Text style={styles.TextStyles}>-</Text>
-            <TouchableOpacity onPress={() => Actions.ForgotPassword()}>
-              <Text style={styles.TextStyles}>
-                  Forgot Password
-              </Text>
-            </TouchableOpacity>
           </View>
 
         </Card>
@@ -125,7 +120,7 @@ const styles = {
     alignContent: 'center', 
     paddingLeft: 5, 
     justifyContent: 'center', 
-    paddingTop: 50
+    paddingTop: 20
   },
   ErrorContainer: {
     flexDirection: 'row',
@@ -151,13 +146,9 @@ const styles = {
     paddingLeft: 5,
     color: '#C0C0C0'
   },
-  LoginHeader: {
-    fontFamily: 'Thonburi',
-    fontWeight: 'bold',
-    fontSize: 42,
-    paddingTop: 20,
-    paddingBottom: 30,
-    color: 'white'
+  LogoStyle: {
+    height: 200,
+    width: 200,
   },
   InputStyling: {
     borderBottomWidth: 1,

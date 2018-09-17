@@ -1,6 +1,6 @@
 import Modal from 'react-native-modal';
 import React, { Component } from 'react';
-import { View, Animated } from 'react-native';
+import { View, Image } from 'react-native';
 import { Icon, ListItem, List } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -13,6 +13,8 @@ import {
     Color4,
     Color5
 } from './common/Colors';
+
+const Logo = require('/Users/ap/Desktop/Projects/ReactTemp/Music/MusicApp/src/Images/logo_transparent.png');
 
 class ModalNavigator extends Component {
 
@@ -93,15 +95,8 @@ renderCog() {
           }}
         >
         <View style={{ flex: 1, justifyContent: 'center' }}>
-            <View>
-                <Icon
-                    name='social-soundcloud'
-                    type='simple-line-icon'
-                    color={Color3}
-                    containerStyle={styles.iconStyles}
-                    underlayColor='rgba(0, 0, 0, .0)'
-                    size={100}
-                />
+            <View style={{ alignItems: 'center', paddingBottom: 75 }}>
+                <Image source={Logo} style={styles.LogoStyles} />
             </View>
             <View>
                 <List containerStyle={styles.ListContainer}>
@@ -145,6 +140,10 @@ const styles = {
     modalStyle: {
         backgroundColor: Color5,
         marginRight: 150
+    },
+    LogoStyles: {
+        height: 100,
+        width: 100,
     }
 };
 
